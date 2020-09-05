@@ -1,0 +1,74 @@
+.g-btn.f-l {
+    padding: 4px 10px 5px 10px;
+    border: 1px solid #ddd;
+    overflow: hidden!important;
+    border-radius: 0;
+    cursor: pointer;
+    height: 24px;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.10rem;
+    text-decoration:none;
+}
+.position-relative {
+    position: relative!important;
+}
+.d-block {
+    display: block!important;
+}
+.shadow {
+    -webkit-box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+.button--download .up {
+    margin: -85px 0 0 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.button--download .down {
+    margin: -5px 0 0 10px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.button--download .g-btn.f-l, .button--download p {
+    border-radius: 10px;
+    -webkit-box-shadow: 2px 2px 8px rgba(0,0,0,.2);
+    box-shadow: 2px 2px 8px rgba(0,0,0,.2);
+}
+.button--download p {
+    line-height: 3.5!important;
+    background: #222;
+    color: #fff;
+    display: block;
+    font: 12px/45px Helvetica,Verdana,sans-serif;
+    height: 40px;
+    margin: 0 0 0 10px;
+    position: absolute;
+    text-align: center;
+    -webkit-transition: margin .5s ease 0s;
+    transition: margin .5s ease 0s;
+    width: 180px;
+    z-index: 1;
+    -webkit-transition: margin .5s ease;
+    transition: margin .5s ease;
+}
+
+.button--download:hover .up, .button--download:hover .down {
+    margin: -45px 0 0 10px; }
+
+.button--download .down i {
+    margin-right: 5px;
+}
+
+.button--download .down i.fa-folder-o:before {
+    content: "";
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAUCAYAAACXtf2DAAAACXBIWXMAAAsSAAALEgHS3X78AAABDElEQVQ4EbVV0Q2CMBB9EP/pBrKBbCCb6AiOwAiygW7gCB0BNigb6AQ1xSu5tA1QLC85Gi7lvbve9YDW2tgcHrRnkx3wwwdAgTAuABQASRYHikpSBo0TZTeT2Rogp2g6WmsnOvP+pAxj0Zv9VkDRWjokbwBXAAJAttJ6+lZyAZvB0REQJNI4/or8t0BWJy6w1Bm8BqZOIuB/Mb9nnoPZPVDEt9a6ombg6Mjv8WR6lNkPpgbDjvxDzjqojeiUJWuJU+Xsdlae/nZYLskz2ENAcYGC+v5fCDbXlDtN61CrRVrN+KabPDippTiekXNpFm1ByTmtQMpOmjrIPOwPx2ZwNuMpgcjE6R5RSigA+ALmwL/+OUo9MwAAAABJRU5ErkJggg==);
+    background-position: center;
+    background-size: 12px;
+    background-repeat: no-repeat;
+    padding: 6px 6px 4px; }
