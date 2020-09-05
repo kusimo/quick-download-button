@@ -108,19 +108,17 @@ function custom_download_button_shortcode($atts, $content = null) {
         <p class="up"><i class="fa fa-clock-o"></i> <?php echo $a['duration']; ?></p>
         <?php endif ; ?>
 
-        <?php if( '1' === $a['filesize'] ) : ?>
-        
-        <?php 
-        echo '<p class="down"><i class="fa fa-folder-o"></i> ';
-            $file_url = filesize(convert_url_to_path($a['url']) );
-            $file_size = formatSizeUnits($file_url);
-            if('0 bytes' != $file_size) echo formatSizeUnits($file_url);
-        echo '</p>';
+        <?php if( '1' === $a['filesize'] ) : 
+            echo '<p class="down"><i class="fa fa-folder-o"></i> ';
+                $file_url = filesize(convert_url_to_path($a['url']) );
+                $file_size = formatSizeUnits($file_url);
+                if('0 bytes' != $file_size) echo formatSizeUnits($file_url);
+            echo '</p>';
 
         elseif('' !== $a['filesize']) :
-        echo '<p class="down"><i class="fa fa-folder-o"></i> ';
-                echo $a['filesize'];
-        echo '</p>';
+            echo '<p class="down"><i class="fa fa-folder-o"></i> ';
+                    echo $a['filesize'];
+            echo '</p>';
 
         //else :
         ?>
