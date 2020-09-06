@@ -90,6 +90,7 @@ function custom_download_button_shortcode($atts, $content = null) {
         'duration' => '',
         'url' => '',
         'extension' => '',
+        'extension_text' => '0',
         'hotlink' => false,
     ), $atts);
 
@@ -108,19 +109,38 @@ function custom_download_button_shortcode($atts, $content = null) {
 
         <?php  
          $extension_path = '';
+         $file_icon = '';
+         $extension_array = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
+
         if('1' == $a['extension']  ) : 
              $extension_path = explode('.', $a['url']); $file_extension = end($extension_path); 
+             //check if file icon is in array of extension
+             if(in_array(strtolower($file_extension),$extension_array)) {
+                $file_icon = 'fi fi-'.strtolower($file_extension);
+             } else {
+                 //check image array
+                 $image_array = ['jpg','jpeg','tiff','png','bmp','gif'];
+                 if(in_array(strtolower($file_extension),$image_array)) {
+                    $file_icon = 'fi fi-image';
+                 } else {
+                    $file_icon = 'fi fi-file';
+                 }
+                 
+             }
+            
         elseif('' != $a['extension'] && '1' != $a['extension']) :
             $file_extension = $a['extension'];
+            $file_icon = '';
         endif ;  
         ?>
 
         <?php if('' != $a['extension']) : ?>
-        <p class="up"><i class="fa fa-clock-o"></i> <?php echo $file_extension; ?></p>
+        <p class="up"><i class="<?php echo $file_icon; ?>"></i> 
+        <?php if('1' == $a['extension_text']) echo '<span>'. $file_extension.'</span>'; ?></p>
         <?php endif ;  ?>
 
         <?php if( '1' === $a['filesize'] ) : 
-            echo '<p class="down"><i class="fa fa-folder-o"></i> ';
+            echo '<p class="down"><i class="fi fi-mp3"></i> ';
                 $file_url = filesize(convert_url_to_path($a['url']) );
                 $file_size = formatSizeUnits($file_url);
                 if('0 bytes' != $file_size) echo formatSizeUnits($file_url);
