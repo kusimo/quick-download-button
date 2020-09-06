@@ -102,7 +102,7 @@ function custom_download_button_shortcode($atts, $content = null) {
     ob_start();
     ?>
 
-    <div class="button--download" id="bsing-dlbtn" style="margin: 6rem auto;width: 200px;">
+    <div class="button--download" style="margin: 6rem auto;width: 200px;">
       <form method="post" action="<?php echo !empty($a['url'])? $a['url'] : $hotlink_url ; ?>">
       <button class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" type="submit" style="z-index:2;height:50px; width:200px;" title="Download" data-pid="<?php echo $pid; ?>"><?php echo $a['title']; ?></button>
       </form>
@@ -140,14 +140,14 @@ function custom_download_button_shortcode($atts, $content = null) {
         <?php endif ;  ?>
 
         <?php if( '1' === $a['filesize'] ) : 
-            echo '<p class="down"><i class="fi fi-mp3"></i> ';
+            echo '<p class="down"><i class="fi-folder-o"></i>';
                 $file_url = filesize(convert_url_to_path($a['url']) );
                 $file_size = formatSizeUnits($file_url);
                 if('0 bytes' != $file_size) echo formatSizeUnits($file_url);
             echo '</p>';
 
         elseif('' !== $a['filesize']) :
-            echo '<p class="down"><i class="fa fa-folder-o"></i> ';
+            echo '<p class="down"><i class="fi-folder-o"></i> ';
                     echo $a['filesize'];
             echo '</p>';
 
