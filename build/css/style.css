@@ -23,6 +23,9 @@
     -webkit-box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 }
+.button--download {
+    margin-top:8rem!important;
+}
 .button--download .up {
     margin: -85px 0 0 10px;
     border-bottom-right-radius: 0;
@@ -67,7 +70,7 @@
     margin-right: 5px;
 }
 
-.button--download .down i.fa-folder-o:before {
+.button--download .down i.fi-folder-o:before {
     content: "";
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAUCAYAAACXtf2DAAAACXBIWXMAAAsSAAALEgHS3X78AAABDElEQVQ4EbVV0Q2CMBB9EP/pBrKBbCCb6AiOwAiygW7gCB0BNigb6AQ1xSu5tA1QLC85Gi7lvbve9YDW2tgcHrRnkx3wwwdAgTAuABQASRYHikpSBo0TZTeT2Rogp2g6WmsnOvP+pAxj0Zv9VkDRWjokbwBXAAJAttJ6+lZyAZvB0REQJNI4/or8t0BWJy6w1Bm8BqZOIuB/Mb9nnoPZPVDEt9a6ombg6Mjv8WR6lNkPpgbDjvxDzjqojeiUJWuJU+Xsdlae/nZYLskz2ENAcYGC+v5fCDbXlDtN61CrRVrN+KabPDippTiekXNpFm1ByTmtQMpOmjrIPOwPx2ZwNuMpgcjE6R5RSigA+ALmwL/+OUo9MwAAAABJRU5ErkJggg==);
     background-position: center;
