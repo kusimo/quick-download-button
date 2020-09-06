@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Custom Download
  * Plugin URI: https://github.com/kusimo/custom-download
- * Description: Custom block plugin for download button with color and file extension options.
+ * Description: Custom block plugin for download button with color, file extension options and shortcode.
  * Version: 1.0.0
  * Author: Abidemi Kusimo
  *
@@ -89,6 +89,7 @@ function custom_download_button_shortcode($atts, $content = null) {
         'filesize' => '',
         'duration' => '',
         'url' => '',
+        'extension' => '',
         'hotlink' => false,
     ), $atts);
 
@@ -104,9 +105,19 @@ function custom_download_button_shortcode($atts, $content = null) {
       <form method="post" action="<?php echo !empty($a['url'])? $a['url'] : $hotlink_url ; ?>">
       <button class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" type="submit" style="z-index:2;height:50px; width:200px;" title="Download" data-pid="<?php echo $pid; ?>"><?php echo $a['title']; ?></button>
       </form>
-        <?php if('' != $a['duration']) : ?>
-        <p class="up"><i class="fa fa-clock-o"></i> <?php echo $a['duration']; ?></p>
-        <?php endif ; ?>
+
+        <?php  
+         $extension_path = '';
+        if('1' == $a['extension']  ) : 
+             $extension_path = explode('.', $a['url']); $file_extension = end($extension_path); 
+        elseif('' != $a['extension'] && '1' != $a['extension']) :
+            $file_extension = $a['extension'];
+        endif ;  
+        ?>
+
+        <?php if('' != $a['extension']) : ?>
+        <p class="up"><i class="fa fa-clock-o"></i> <?php echo $file_extension; ?></p>
+        <?php endif ;  ?>
 
         <?php if( '1' === $a['filesize'] ) : 
             echo '<p class="down"><i class="fa fa-folder-o"></i> ';
