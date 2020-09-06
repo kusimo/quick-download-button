@@ -1,8 +1,8 @@
-# custom-download
-Wordpress custom download button using block and shortcode option
+# Custom Download Button WordPress Plugin
+Wordpress custom download button using block and shortcode option. The plugin displays file size and file extension. 
 
 
-# display download button only
+# Display download button only
 To display download button only use the code as follow
 [custom_download title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 
