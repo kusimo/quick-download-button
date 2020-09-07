@@ -1,5 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { SVG, Path } from '@wordpress/primitives';
+import { __ } from '@wordpress/i18n';
 
 const download = (
 	<SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -8,7 +9,7 @@ const download = (
 );
  
 registerBlockType( 'custom-download/download-button', {
-    title: 'Download Button',
+    title: __('Download Button','custom-download'),
     icon: download,
     category: 'media',
     edit: () => <div>Download, mundo!</div>,
