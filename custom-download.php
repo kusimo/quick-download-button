@@ -76,6 +76,16 @@ function custom_download_register_blocks() {
 		'style' => 'custom-download-front-end-styles',	
     ) );
 
+    if ( function_exists( 'wp_set_script_translations' ) ) {
+        /**
+         * Adds internationalization support. 
+         * 
+         * @link https://wordpress.org/gutenberg/handbook/designers-developers/developers/internationalization/
+         * @link https://make.wordpress.org/core/2018/11/09/new-javascript-i18n-support-in-wordpress/
+         */
+        wp_set_script_translations( 'custom-download-editor-script', 'custom-download', plugin_dir_path( __FILE__ ) . '/languages' );
+        }
+
 
 }
 
