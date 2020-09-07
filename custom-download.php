@@ -56,17 +56,17 @@ function custom_download_register_blocks() {
     // Register the block editor stylesheet.
 	wp_register_style(
 		'custom-download-editor-styles',											// label
-		plugins_url( 'build/css/editor.css', __FILE__ ),					// CSS file
+		plugins_url( 'css/editor.css', __FILE__ ),					// CSS file
 		array( 'wp-edit-blocks' ),										// dependencies
-		filemtime( plugin_dir_path( __FILE__ ) . 'build/css/editor.css' )	// set version as file last modified time
+		filemtime( plugin_dir_path( __FILE__ ) . 'css/editor.css' )	// set version as file last modified time
 	);
 
 	// Register the front-end stylesheet.
 	wp_register_style(
 		'custom-download-front-end-styles',										// label
-		plugins_url( 'build/css/style.css', __FILE__ ),						// CSS file
+		plugins_url( 'css/style.css', __FILE__ ),						// CSS file
 		array( ),														// dependencies
-		filemtime( plugin_dir_path( __FILE__ ) . 'build/css/style.css' )	// set version as file last modified time
+		filemtime( plugin_dir_path( __FILE__ ) . 'css/style.css' )	// set version as file last modified time
     );
     
     //register blocks script and styles
