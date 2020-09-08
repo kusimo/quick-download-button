@@ -1,3 +1,16 @@
+.custom-download-button-inner form {
+    min-height: 200px;
+    display: inline;
+}
+.custom-download-button-inner {
+    width: 200px!important;
+    margin: 6rem auto;
+}
+button.g-btn {
+    z-index: 2;
+    min-height: 50px;
+    width: 200px; 
+}
 .g-btn.f-l {
     padding: 4px 10px 5px 10px;
     border: 1px solid #ddd;
@@ -5,7 +18,8 @@
     border-radius: 0;
     cursor: pointer;
     height: 24px;
-    color: #ffffff;
+    background-color: #ffffff;
+    color:#000;
     display: inline-block;
     font-size: 11px;
     font-weight: 700;
@@ -23,9 +37,7 @@
     -webkit-box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 }
-.button--download {
-    margin-top:8rem!important;
-}
+
 .button--download .up {
     margin: -85px 0 0 10px;
     border-bottom-right-radius: 0;
@@ -40,6 +52,10 @@
     border-top-left-radius: 0;
 }
 
+.button--download .down .rich-text, .button--download .up .rich-text {
+    display:inline!important
+}
+
 .button--download .g-btn.f-l, .button--download p {
     border-radius: 10px;
     -webkit-box-shadow: 2px 2px 8px rgba(0,0,0,.2);
@@ -50,7 +66,7 @@
     background: #222;
     color: #fff;
     display: block;
-    font: 12px/45px Helvetica,Verdana,sans-serif;
+    font: 12px/45px Helvetica,Verdana,sans-serif!important;
     height: 40px;
     margin: 0 0 0 10px;
     position: absolute;
@@ -63,8 +79,11 @@
     transition: margin .5s ease;
 }
 
-.button--download:hover .up, .button--download:hover .down {
-    margin: -45px 0 0 10px; }
+.edit-post-layout .button--download:hover .up {
+    margin: -85px 0 0 10px; }
+
+.edit-post-layout .button--download:hover .down {
+    margin: -5px 0 0 10px; }
 
 .button--download .down i {
     margin-right: 5px;
@@ -123,4 +142,12 @@
 
 .button--download .up i.fi.fi-html:before {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABhCAYAAACERbw0AAAACXBIWXMAAAsSAAALEgHS3X78AAAFT0lEQVR4nO2dT2gcVRjAv4ZqUKitqW0Pbk2QhmLpP+lKCkqz8ZaAUKoHXRRykh66tSDsSbCiFxcqteuh0IM5yOrBUkFITtLd0mIDW0hqsId4SLQI/WNoKrUGD5FvOm87O2/mm/dm3u5MZr4fDIE3s/PnN99833s7m5l1q6uroEqxVNkEAPuVP9BFNj+74cmdL+Zmj42/ccvUVgPlFEuVAQA4DADjALBPWiAhbOnbCEMv77y5dO/vvClBvnLsKDkJAB9IMxMq59DB3bCy8p8xQT1SyyMxBQBYWCtinPT2PpHr27Sh+dXEj9ukmZpIcoqlCl4+FwFgY/cOySymBLXJscV8LS21BjEhqCWnWKrsT4sYQVRBzsj5QZqbAqIIsuQUSxWsSv3S3IwLEpEzLs1JGWEE9RRLlcNpjhonuoIwcgpSa4rREdST1LFSJ1EVhHKGpdYMoCJI6iGzoMdkWg4ECMq8HCAEpUbOg4f/Sm06eAlKjZx/Hq5YUxTcglJ1WTVn56U2XZyCUiXnztIy/HR5Bv68tSTN00EIWt/tA+g09+4/gJ+v3TCxlRxXKwKWQ8ByCFgOAcshYDkELIeA5RCwHAKWQ8ByCFgOAcshYDkELIeA5RCwHAKWQ5DYr0mffqoXPnz/SFvbr/O/w/nJK9KynSKxcvJ7B+GlHdvb2hpXf5GW6ySJvaxe2TsotTWvR7/1okMi5eAPrg+45Fyanot8006XRMrJ74s/aqAbcg4N7bYiQfczTjBi/OS4lzVJx+TgTp/55CgcfXcMtmxWl9Of2wr9z29ta8NLyg9cP26nE5KMVyvcybfGXoPn+p6R5qkwPLRHWqoxTVcp3BZKwu1+P3mZlKmDMTlRpQjyrkR8d+k+LN68LS3nhWlJkeUESbnx2x9w569lqd0LFONez1S96bHkY65dn5cqmylJoeUEScEdwgl7taq4owYUflZy6twFK+G/OfaqlHeiSlr3zrHPvf8bzQdKiqgq2MXHn4PogMMFTKz4V4BR9+mX3yqvBT87OpKH0UK+bT0CvER1JGlHDp4JNygFw3/qYjN0Rw2jxn1AusMF3DaeGNyP4YN7LEnOkygiSVWOkVKOB7Vr8AVrCovJ4cJAbhvs2rHdM7p10I6c81NXrHLr3jAOEnHC0MXSe+nqnPKlZWK4gCfIK1qciAhXRTvnCDD34PXt7rA5wUrSmJ4LjABcz3tHXm9r++LcBaXIwWjFfaE6gSLX4Pp0hIeuVqIa4c6NFg5IZx7BNpw+O/MdWbV0hgtuPjr+ttQmwISO+Sfs5Rm5n4MHjZMop16JlUJ3uKACfh4vH9XOox/GesiYX85+M9kqp155yYswwwUvRD7RyXVBGB9biXKKk8hLFFGGCxAhn6jQ0a9JRV7yI8xwwc3xj89KbaaI9cuuMMOFbhKbHMxNbjnWINVQvjBBbHK8qlq37y4EEZucJNxdCCIWOUm5uxBELHKScnchiFjueGJFcvdlqOFFXMQiBytSkqqSH/wrCwKWQ8ByCFgOAcshYDkELIeA5RCwHAKWQ8ByCFgOAcshYDkELIcA5TT8Z2eaBsqZyboFH2ZQzoT3vMwzYT2gvliqLGTl4a2KLNaq5QGRkE8mfne7i+Wj9WqDYqlSz+pzSl00atWy9aRfZynHB0Yn/5ZAZ1l2Pji7JadWLS9k7dnIHhRsDxZtncBatYxlfSSDEYTHO2Iffwuph1yrlut2BM1Kq0gns3bE1N1H5/uuGXiUpE8AwImUlvlFADhdq5ZPS3NsSDkC+00iBXtay6JQCEZIvVYtB3Z+td5vJbBf1LOm8LpsSADgf+UeLjBVwHqtAAAAAElFTkSuQmCC')
+}
+
+.custom-download-logo__button {
+	position: absolute;
+	bottom: 4px;
+	right: 4px;
+	background-color: hsla(0, 0%, 100%,1);
+	border: 1px solid grey;
 }

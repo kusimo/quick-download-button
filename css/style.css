@@ -1,3 +1,12 @@
+.custom-download-button-inner {
+    width: 200px!important;
+    margin: 6rem auto;
+}
+button.g-btn {
+    z-index: 2;
+    min-height: 50px;
+    width: 200px; 
+}
 .g-btn.f-l {
     padding: 4px 10px 5px 10px;
     border: 1px solid #ddd;
@@ -5,7 +14,8 @@
     border-radius: 0;
     cursor: pointer;
     height: 24px;
-    color: #ffffff;
+    background-color: #ffffff;
+    color:#000;
     display: inline-block;
     font-size: 11px;
     font-weight: 700;
@@ -23,9 +33,7 @@
     -webkit-box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
 }
-.button--download {
-    margin-top:8rem!important;
-}
+
 .button--download .up {
     margin: -85px 0 0 10px;
     border-bottom-right-radius: 0;
@@ -50,7 +58,7 @@
     background: #222;
     color: #fff;
     display: block;
-    font: 12px/45px Helvetica,Verdana,sans-serif;
+    font: 12px/45px Helvetica,Verdana,sans-serif!important;
     height: 40px;
     margin: 0 0 0 10px;
     position: absolute;
