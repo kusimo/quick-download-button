@@ -38,8 +38,8 @@ registerBlockType( 'custom-download/download-button', {
 
     edit: props => {
 
-         // Props parameter holds all the info.
-        console.info(props);
+        // Props parameter holds all the info.
+        //console.info(props);
 
         // Lift info from props and populate various constants.
         const {
@@ -53,13 +53,24 @@ registerBlockType( 'custom-download/download-button', {
         };
 
         const onMediaSelect = uploadObject => {
-            console.info('Media Info: ', uploadObject);
+            //console.info('Media Info: ', uploadObject);
             setAttributes({ downloadUrl: uploadObject.url });
             setAttributes({ downloadFileSize: uploadObject.filesizeHumanReadable });
           }
 
-          const downloadExt = downloadUrl.substr(downloadUrl.lastIndexOf('.') + 1);
-          console.info('File Extension', downloadExt.toLowerCase());
+          let downloadExt = downloadUrl.substr(downloadUrl.lastIndexOf('.') + 1);
+          const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
+          const imageExtension = ['jpg','jpeg','tiff','png','bmp','gif'];
+          const foundExt = imageExtension.includes(downloadExt.toLowerCase());
+          if(foundExt === true) {
+            downloadExt = 'image';
+          } else if (extensionArray.indexOf(downloadExt) == -1) {
+            downloadExt = 'file';
+          }
+          else {
+            downloadExt = 'file';
+          }
+         
 
           const handleSubmit = (event) => {
             event.preventDefault();
@@ -104,7 +115,19 @@ registerBlockType( 'custom-download/download-button', {
        
     },
     save: props =>  {
-        const downloadExt = props.attributes.downloadUrl.substr(props.attributes.downloadUrl.lastIndexOf('.') + 1);
+        let downloadExt = props.attributes.downloadUrl.substr(props.attributes.downloadUrl.lastIndexOf('.') + 1);
+        const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
+          const imageExtension = ['jpg','jpeg','tiff','png','bmp','gif'];
+          const foundExt = imageExtension.includes(downloadExt.toLowerCase());
+          if(foundExt === true) {
+            downloadExt = 'image';
+          } else if (extensionArray.indexOf(downloadExt) == -1) {
+            downloadExt = 'file';
+          }
+          else {
+            downloadExt = 'file';
+          }
+
         return (
             <div className="button--download">
                  <div className="custom-download-button-inner">

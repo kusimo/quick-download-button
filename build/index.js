@@ -145,8 +145,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
   },
   edit: function edit(props) {
     // Props parameter holds all the info.
-    console.info(props); // Lift info from props and populate various constants.
-
+    //console.info(props);
+    // Lift info from props and populate various constants.
     var _props$attributes = props.attributes,
         downloadTitle = _props$attributes.downloadTitle,
         downloadUrl = _props$attributes.downloadUrl,
@@ -161,7 +161,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     };
 
     var onMediaSelect = function onMediaSelect(uploadObject) {
-      console.info('Media Info: ', uploadObject);
+      //console.info('Media Info: ', uploadObject);
       setAttributes({
         downloadUrl: uploadObject.url
       });
@@ -171,7 +171,17 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     };
 
     var downloadExt = downloadUrl.substr(downloadUrl.lastIndexOf('.') + 1);
-    console.info('File Extension', downloadExt.toLowerCase());
+    var extensionArray = ['pdf', 'mp3', 'mov', 'zip', 'txt', 'doc', 'xml', 'mp4', 'ppt'];
+    var imageExtension = ['jpg', 'jpeg', 'tiff', 'png', 'bmp', 'gif'];
+    var foundExt = imageExtension.includes(downloadExt.toLowerCase());
+
+    if (foundExt === true) {
+      downloadExt = 'image';
+    } else if (extensionArray.indexOf(downloadExt) == -1) {
+      downloadExt = 'file';
+    } else {
+      downloadExt = 'file';
+    }
 
     var handleSubmit = function handleSubmit(event) {
       event.preventDefault();
@@ -218,6 +228,18 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
   },
   save: function save(props) {
     var downloadExt = props.attributes.downloadUrl.substr(props.attributes.downloadUrl.lastIndexOf('.') + 1);
+    var extensionArray = ['pdf', 'mp3', 'mov', 'zip', 'txt', 'doc', 'xml', 'mp4', 'ppt'];
+    var imageExtension = ['jpg', 'jpeg', 'tiff', 'png', 'bmp', 'gif'];
+    var foundExt = imageExtension.includes(downloadExt.toLowerCase());
+
+    if (foundExt === true) {
+      downloadExt = 'image';
+    } else if (extensionArray.indexOf(downloadExt) == -1) {
+      downloadExt = 'file';
+    } else {
+      downloadExt = 'file';
+    }
+
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "button--download"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
