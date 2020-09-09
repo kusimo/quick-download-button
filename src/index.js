@@ -21,7 +21,15 @@ registerBlockType( 'custom-download/download-button', {
         downloadTitle : {
             type: 'string',
             source: 'text',
-            selector: 'button'
+            selector: 'button',
+            default: __('Download', 'custom-download')
+        },
+        downloadTitlePlaceholder : {
+            type: 'string',
+            source: 'attribute', 
+            selector: 'button',
+            attribute: 'title',
+            default: __('Download', 'custom-download')
         },
         downloadDir: {
             type: 'string',
@@ -59,13 +67,14 @@ registerBlockType( 'custom-download/download-button', {
 
         // Lift info from props and populate various constants.
         const {
-            attributes : {downloadTitle, downloadDir, downloadFileSize, downloadId, downloadFormat},
+            attributes : {downloadTitle, downloadDir, downloadFileSize, downloadId, downloadFormat, downloadTitlePlaceholder},
             setAttributes,
             className
         } = props;
 
         const onChangeTitle = (newTitle) => {
-            setAttributes( { downloadTitle: newTitle })
+            setAttributes( { downloadTitle: newTitle } );
+            setAttributes ( {downloadTitlePlaceholder : newTitle} );
         };
 
         const onMediaSelect = uploadObject => {
@@ -113,7 +122,7 @@ registerBlockType( 'custom-download/download-button', {
             <div className= {`${className} button--download`} id={downloadId}>
                 <div className="custom-download-button-inner">
                     <form method="post" onSubmit={handleSubmit}>
-                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" formtarget="_blank">
+                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title={downloadTitlePlaceholder}>
                         <RichText 
                             placeholder={__("Download", "custom-download")}
                             onChange= { onChangeTitle}
@@ -147,14 +156,14 @@ registerBlockType( 'custom-download/download-button', {
     },
     save: props =>  {
           const {
-            attributes: { downloadId, downloadDir, downloadFormat }
+            attributes: { downloadId, downloadDir, downloadFormat, downloadTitlePlaceholder }
           } = props;
 
         return (
             <div className="button--download" id={downloadId}>
                  <div className="custom-download-button-inner">
                     <form method="post" action={downloadDir}>
-                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" formtarget="_blank">
+                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title={downloadTitlePlaceholder}>
                             <RichText.Content value={props.attributes.downloadTitle} />
                         </button>
                     
