@@ -1,7 +1,7 @@
 # Quick Download Button WordPress Plugin
 Quick download button is a download button for WordPress. You can easily add a better download link to your post with this plugin. 
 
-![Image of Quick Download Button](https://github.com/kusimo/Wordpress-KJV-Bible/blob/master/quick-download-button.png)
+![Image of Quick Download Button](https://github.com/kusimo/quick-download-button/blob/master/screenshot/quick-download-button.png)
 
 ## Plugin's features: 
 
