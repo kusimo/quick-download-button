@@ -110,20 +110,27 @@ function custom_download_button_shortcode($atts, $content = null) {
         'url' => '',
         'extension' => '',
         'extension_text' => '0',
-        'hotlink' => false,
+        'url_external' => '',
     ), $atts);
 
     global $post;
     $pid = $post->ID;
-    $hotlink_url = '/dl.php?aid='.$pid;
-    
+
+
+    $attachment_id = attachment_url_to_postid($a['url']);  //get attachment id from URL
+
+    $custom_download_url = plugin_dir_url( __DIR__ ).'custom-download/download.php?aid='.$attachment_id; //pass attachment id to plugin download file
+
+    $url = !empty($a['url'])? $custom_download_url : $a['url_external'] ; //if url value is empty set url to external url (url_external)
 
     ob_start();
     ?>
 
     <div class="button--download" style="margin: 6rem auto;width: 200px;">
-      <form method="post" action="<?php echo !empty($a['url'])? $a['url'] : $hotlink_url ; ?>">
-      <button class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" type="submit" style="z-index:2;height:50px; width:200px;" title="Download" data-pid="<?php echo $pid; ?>"><?php echo $a['title']; ?></button>
+      <form method="<?php echo !empty($a['url'])? 'post' : 'get' ; ?>" action="<?php echo $url ; ?>">
+        <button class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" type="submit" style="z-index:2;height:50px; width:200px;" title="Download" data-pid="<?php echo $pid; ?>" <?php echo !empty($a['url_external'])? 'formtarget="_blank"' : '' ; ?> >
+        <?php echo $a['title']; ?>
+        </button>
       </form>
 
         <?php  
