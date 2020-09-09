@@ -119,6 +119,7 @@ var download = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createEle
 }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_2__["Path"], {
   d: "M18 11.3l-1-1.1-4 4V3h-1.5v11.3L7 10.2l-1 1.1 6.2 5.8 5.8-5.8zm.5 3.7v3.5h-13V15H4v5h16v-5h-1.5z"
 }));
+var pluginDownloadDir = custom_data.download_file_url;
 Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('custom-download/download-button', {
   title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Download Button', 'custom-download'),
   icon: download,
@@ -129,12 +130,19 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
       source: 'text',
       selector: 'button'
     },
-    downloadUrl: {
+    downloadDir: {
       type: 'string',
       source: 'attribute',
       selector: 'form',
       attribute: 'action',
-      default: '/'
+      default: custom_data.download_file_url
+    },
+    downloadFormat: {
+      type: 'string',
+      source: 'attribute',
+      selector: 'p.up i',
+      attribute: 'class',
+      default: 'fi fi-file'
     },
     downloadFileSize: {
       type: "string",
@@ -155,9 +163,10 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     // Lift info from props and populate various constants.
     var _props$attributes = props.attributes,
         downloadTitle = _props$attributes.downloadTitle,
-        downloadUrl = _props$attributes.downloadUrl,
+        downloadDir = _props$attributes.downloadDir,
         downloadFileSize = _props$attributes.downloadFileSize,
         downloadId = _props$attributes.downloadId,
+        downloadFormat = _props$attributes.downloadFormat,
         setAttributes = props.setAttributes,
         className = props.className;
 
@@ -170,26 +179,41 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     var onMediaSelect = function onMediaSelect(uploadObject) {
       console.info('Media Info: ', uploadObject);
       setAttributes({
-        downloadUrl: uploadObject.url
-      });
-      setAttributes({
         downloadFileSize: uploadObject.filesizeHumanReadable
       });
       setAttributes({
         downloadId: uploadObject.id
       });
+      setAttributes({
+        downloadDir: pluginDownloadDir + '?aid=' + uploadObject.id
+      });
+      var fileExt = uploadObject.url.substr(uploadObject.url.lastIndexOf('.') + 1).trim(); //Check if ext is image
+
+      var imageExtension = ['jpg', 'jpeg', 'tiff', 'png', 'bmp', 'gif'];
+      var foundExt = imageExtension.includes(fileExt.toLowerCase());
+
+      if (foundExt === true) {
+        var downloadExt = 'fi fi-image';
+        setAttributes({
+          downloadFormat: downloadExt
+        });
+      } //Check for other files
+
+
+      var otherExtensions = ['pdf', 'mp3', 'mov', 'zip', 'txt', 'doc', 'xml', 'mp4', 'ppt', 'csv'];
+      var foundOthers = otherExtensions.includes(fileExt.toLowerCase());
+
+      if (foundOthers === true) {
+        var extIndex = otherExtensions.indexOf(fileExt);
+        var ext = otherExtensions["".concat(extIndex)];
+
+        var _downloadExt = 'fi fi-' + ext;
+
+        setAttributes({
+          downloadFormat: _downloadExt
+        });
+      }
     };
-
-    var downloadExt = downloadUrl.substr(downloadUrl.lastIndexOf('.') + 1);
-    downloadExt = downloadExt.trim();
-    console.log('ID: ', downloadId); //const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
-
-    var imageExtension = ['jpg', 'jpeg', 'tiff', 'png', 'bmp', 'gif'];
-    var foundExt = imageExtension.includes(downloadExt.toLowerCase()); //Image
-
-    if (foundExt === true) {
-      downloadExt = 'image';
-    }
 
     var handleSubmit = function handleSubmit(event) {
       event.preventDefault();
@@ -215,7 +239,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
       className: "up"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("i", {
-      className: "fi fi-".concat(downloadExt)
+      className: downloadFormat
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["MediaUpload"], {
       onSelect: onMediaSelect,
       value: props.attributes.downloadUrl,
@@ -236,16 +260,10 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     }), downloadFileSize))));
   },
   save: function save(props) {
-    var downloadExt = props.attributes.downloadUrl.substr(props.attributes.downloadUrl.lastIndexOf('.') + 1); //const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
-
-    var imageExtension = ['jpg', 'jpeg', 'tiff', 'png', 'bmp', 'gif'];
-    var foundExt = imageExtension.includes(downloadExt.toLowerCase());
-
-    if (foundExt === true) {
-      downloadExt = 'image';
-    }
-
-    var downloadId = props.attributes.downloadId;
+    var _props$attributes2 = props.attributes,
+        downloadId = _props$attributes2.downloadId,
+        downloadDir = _props$attributes2.downloadDir,
+        downloadFormat = _props$attributes2.downloadFormat;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "button--download"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
@@ -253,7 +271,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
       id: downloadId
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("form", {
       method: "post",
-      action: props.attributes.downloadUrl
+      action: downloadDir
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("button", {
       className: "g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title",
       type: "submit",
@@ -264,7 +282,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
       className: "up"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("i", {
-      className: "fi fi-".concat(downloadExt)
+      className: downloadFormat
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
       className: "down"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("i", {

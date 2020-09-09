@@ -11,7 +11,8 @@ const download = (
 	</SVG>
 );
 
- 
+const pluginDownloadDir = custom_data.download_file_url;
+
 registerBlockType( 'custom-download/download-button', {
     title: __('Download Button','custom-download'),
     icon: download,
@@ -22,12 +23,19 @@ registerBlockType( 'custom-download/download-button', {
             source: 'text',
             selector: 'button'
         },
-        downloadUrl: {
+        downloadDir: {
             type: 'string',
             source: 'attribute',
             selector: 'form',
             attribute: 'action',
-            default: '/'
+            default: custom_data.download_file_url
+        },
+        downloadFormat: {
+            type: 'string',
+            source: 'attribute',
+            selector: 'p.up i',
+            attribute: 'class',
+            default: 'fi fi-file'
         },
         downloadFileSize: {
             type: "string",
@@ -51,7 +59,7 @@ registerBlockType( 'custom-download/download-button', {
 
         // Lift info from props and populate various constants.
         const {
-            attributes : {downloadTitle, downloadUrl, downloadFileSize, downloadId},
+            attributes : {downloadTitle, downloadDir, downloadFileSize, downloadId, downloadFormat},
             setAttributes,
             className
         } = props;
@@ -62,22 +70,37 @@ registerBlockType( 'custom-download/download-button', {
 
         const onMediaSelect = uploadObject => {
             console.info('Media Info: ', uploadObject);
-            setAttributes({ downloadUrl: uploadObject.url });
             setAttributes({ downloadFileSize: uploadObject.filesizeHumanReadable });
             setAttributes({ downloadId: uploadObject.id });
-          }
+            setAttributes({ downloadDir: pluginDownloadDir+'?aid='+uploadObject.id });
 
-          let downloadExt = downloadUrl.substr(downloadUrl.lastIndexOf('.') + 1);
-          downloadExt = downloadExt.trim();
-          console.log('ID: ', downloadId);
-          //const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
-          const imageExtension = ['jpg','jpeg','tiff','png','bmp','gif'];
-          const foundExt = imageExtension.includes(downloadExt.toLowerCase());
-          //Image
-          if(foundExt === true) {
-            downloadExt = 'image';
-          } 
-         
+            let fileExt = uploadObject.url.substr(uploadObject.url.lastIndexOf('.') + 1).trim();
+
+            //Check if ext is image
+            let imageExtension = ['jpg','jpeg','tiff','png','bmp','gif'];
+            let foundExt = imageExtension.includes(fileExt.toLowerCase());
+
+            if(foundExt === true) {
+                let downloadExt = 'fi fi-image';
+                setAttributes({ downloadFormat: downloadExt });
+            } 
+
+            //Check for other files
+            let otherExtensions = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt','csv'];
+            let foundOthers = otherExtensions.includes(fileExt.toLowerCase());
+
+            if(foundOthers === true) {
+                let extIndex = otherExtensions.indexOf(fileExt);
+               
+                let ext = otherExtensions[`${extIndex}`];
+
+                let downloadExt = 'fi fi-'+ext;
+
+                setAttributes({ downloadFormat: downloadExt });
+
+            }
+
+          }
          
 
           const handleSubmit = (event) => {
@@ -98,7 +121,7 @@ registerBlockType( 'custom-download/download-button', {
                             />
                         </button>
                     
-                    <p className="up"><i className={`fi fi-${downloadExt}`}></i> 
+                    <p className="up"><i className={downloadFormat}></i> 
                     <MediaUpload 
                         onSelect={onMediaSelect}
                         value={props.attributes.downloadUrl}
@@ -123,27 +146,19 @@ registerBlockType( 'custom-download/download-button', {
        
     },
     save: props =>  {
-        let downloadExt = props.attributes.downloadUrl.substr(props.attributes.downloadUrl.lastIndexOf('.') + 1);
-            //const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
-          const imageExtension = ['jpg','jpeg','tiff','png','bmp','gif'];
-          const foundExt = imageExtension.includes(downloadExt.toLowerCase());
-          if(foundExt === true) {
-            downloadExt = 'image';
-          } 
-
           const {
-            attributes: { downloadId }
+            attributes: { downloadId, downloadDir, downloadFormat }
           } = props;
 
         return (
             <div className="button--download">
                  <div className="custom-download-button-inner" id={downloadId}>
-                    <form method="post" action={props.attributes.downloadUrl}>
+                    <form method="post" action={downloadDir}>
                         <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" formtarget="_blank">
                             <RichText.Content value={props.attributes.downloadTitle} />
                         </button>
                     
-                    <p className="up"><i className={`fi fi-${downloadExt}`}></i> 
+                    <p className="up"><i className={downloadFormat}></i> 
                     </p>
                     <p className="down"><i className="fi-folder-o"></i>
                     {props.attributes.downloadFileSize}

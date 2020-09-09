@@ -15,7 +15,14 @@ if (strstr($_SERVER['HTTP_REFERER'], 'http://localhost/mainstream/') !== false) 
 
     if (!empty($track_id)) {
 
-        require('wp-blog-header.php');
+        //require('wp-blog-header.php');
+        $scriptPath = dirname(__FILE__);
+        $path = realpath($scriptPath . '/./');
+        $filepath = explode("wp-content",$path);
+        // print_r($filepath);
+        define('WP_USE_THEMES', false);
+        require(''.$filepath[0].'/wp-blog-header.php');
+        
         global $post;
 
         $file_url = wp_get_attachment_url($track_id);
