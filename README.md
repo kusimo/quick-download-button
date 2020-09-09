@@ -6,15 +6,20 @@ Wordpress custom download button using block and shortcode option. The plugin di
 To display download button only use the code as follow
 [custom_download title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 
-# Display file size manually
-The plugin can calculate the file size for you by enter 1 in filesize value. You don't need to enter it manually but in case, enter the file size value in the filesize attribute like below.
-
-[custom_download filesize="4.5MB" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+# Use external URL
+To use external url, add url_external attribute
+[custom_download title="Download" url_external="https://google.com"]
 
 # Auto calculate file size. 
 To let the plugin generate file size, make sure the file is in the WordPress upload directory e.g wp-content/upload and change filesize value to 1 like below
 
 [custom_download filesize="1" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+
+# Display file size manually
+The plugin can calculate the file size for you by enter 1 in filesize value. You don't have to enter it manually but in case, enter the file size value in the filesize attribute like below.
+
+[custom_download filesize="14.5MB" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+
 
 # Show file extention icon
 To show file extension icon, set extension value to 1
@@ -30,6 +35,4 @@ To show both file extension icon and text,  set extension value to 1 and extensi
 
 # To use in a theme file
 
-<?php 
 echo do_shortcode('[custom_download title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]');
-?>
