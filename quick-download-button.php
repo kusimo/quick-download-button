@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Plugin Name: Custom Download
- * Plugin URI: https://github.com/kusimo/custom-download
+ * Plugin Name: Quick Download Button 
+ * Plugin URI: https://github.com/kusimo/quick-download-button
  * Description: Custom block plugin for download button with color, file extension options and shortcode.
  * Version: 1.0.0
  * Author: Abidemi Kusimo
  *
- * @package custom-download
+ * @package quick-download-button
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,10 +18,10 @@ defined( 'ABSPATH' ) || exit;
  * @link https://developer.wordpress.org/reference/functions/load_plugin_textdomain/
  */
 
-add_action( 'init', 'custom_download_load_textdomain' );
+add_action( 'init', 'quick_download_button_load_textdomain' );
 
-function custom_download_load_textdomain() {
-	load_plugin_textdomain( 'custom-download', false, basename( __DIR__ ) . '/languages' );
+function quick_download_button_load_textdomain() {
+	load_plugin_textdomain( 'quick-download-button', false, basename( __DIR__ ) . '/languages' );
 }
 
 /**
@@ -30,9 +30,9 @@ function custom_download_load_textdomain() {
  *
  * @link https://wordpress.org/gutenberg/handbook/designers-developers/developers/block-api/block-registration/
  */
-add_action( 'init', 'custom_download_register_blocks' );
+add_action( 'init', 'quick_download_button_register_blocks' );
 
-function custom_download_register_blocks() {
+function quick_download_button_register_blocks() {
 
     //If Block Editor is not active, bail.
     if(!function_exists('register_block_type')) {
@@ -42,20 +42,20 @@ function custom_download_register_blocks() {
     /**
      * Use asset file to automatically set the dependency list for enqueuing the script
      */
-    $custom_download_asset_file = include( plugin_dir_path( __FILE__ ) . 'build/index.asset.php');
+    $quick_download_button_asset_file = include( plugin_dir_path( __FILE__ ) . 'build/index.asset.php');
 
     //Register the block editor script
 
     wp_register_script(
-		'custom-download-editor-script',					// label
+		'quick-download-button-editor-script',					// label
 		plugins_url( 'build/index.js', __FILE__ ),			// script file
-		$custom_download_asset_file['dependencies'],		// dependencies
+		$quick_download_button_asset_file['dependencies'],		// dependencies
 		filemtime( plugin_dir_path( __FILE__ ) . 'build/index.js' )		// set version as file last modified time
     );
 
     //Localise script
     wp_localize_script(
-        'custom-download-editor-script',
+        'quick-download-button-editor-script',
         'custom_data',
         array(
             'download_file_url' => plugins_url( 'download.php', __FILE__ )
@@ -64,7 +64,7 @@ function custom_download_register_blocks() {
     
     // Register the block editor stylesheet.
 	wp_register_style(
-		'custom-download-editor-styles',											// label
+		'quick-download-button-editor-styles',											// label
 		plugins_url( 'css/editor.css', __FILE__ ),					// CSS file
 		array( 'wp-edit-blocks' ),										// dependencies
 		filemtime( plugin_dir_path( __FILE__ ) . 'css/editor.css' )	// set version as file last modified time
@@ -72,17 +72,17 @@ function custom_download_register_blocks() {
 
 	// Register the front-end stylesheet.
 	wp_register_style(
-		'custom-download-front-end-styles',										// label
+		'quick-download-button-front-end-styles',										// label
 		plugins_url( 'css/style.css', __FILE__ ),						// CSS file
 		array( ),														// dependencies
 		filemtime( plugin_dir_path( __FILE__ ) . 'css/style.css' )	// set version as file last modified time
     );
     
     //register blocks script and styles
-    register_block_type( 'custom-download/download-button', array(
-        'editor_script' => 'custom-download-editor-script',					// Calls registered script above
-		'editor_style' => 'custom-download-editor-styles',					// Calls registered stylesheet above
-		'style' => 'custom-download-front-end-styles',	
+    register_block_type( 'quick-download-button/download-button', array(
+        'editor_script' => 'quick-download-button-editor-script',					// Calls registered script above
+		'editor_style' => 'quick-download-button-editor-styles',					// Calls registered stylesheet above
+		'style' => 'quick-download-button-front-end-styles',	
     ) );
 
     if ( function_exists( 'wp_set_script_translations' ) ) {
@@ -92,7 +92,7 @@ function custom_download_register_blocks() {
          * @link https://wordpress.org/gutenberg/handbook/designers-developers/developers/internationalization/
          * @link https://make.wordpress.org/core/2018/11/09/new-javascript-i18n-support-in-wordpress/
          */
-        wp_set_script_translations( 'custom-download-editor-script', 'custom-download', plugin_dir_path( __FILE__ ) . '/languages' );
+        wp_set_script_translations( 'quick-download-button-editor-script', 'quick-download-button', plugin_dir_path( __FILE__ ) . '/languages' );
         }
 
 
@@ -101,9 +101,9 @@ function custom_download_register_blocks() {
 //Shortcode option
 
 
-function custom_download_button_shortcode($atts, $content = null) {
+function quick_download_button_shortcode($atts, $content = null) {
     $a = shortcode_atts(array(
-        'title' => _('Download', 'custom-download'),
+        'title' => _('Download', 'quick-download-button'),
         'filesize' => '',
         'duration' => '',
         'url' => '',
@@ -118,9 +118,9 @@ function custom_download_button_shortcode($atts, $content = null) {
 
     $attachment_id = attachment_url_to_postid($a['url']);  //get attachment id from URL
 
-    $custom_download_url = plugin_dir_url( __DIR__ ).'custom-download/download.php?aid='.$attachment_id; //pass attachment id to plugin download file
+    $quick_download_button_url = plugin_dir_url( __DIR__ ).'quick-download-button/download.php?aid='.$attachment_id; //pass attachment id to plugin download file
 
-    $url = !empty($a['url'])? $custom_download_url : $a['url_external'] ; //if url value is empty set url to external url (url_external)
+    $url = !empty($a['url'])? $quick_download_button_url : $a['url_external'] ; //if url value is empty set url to external url (url_external)
 
     ob_start();
     ?>
@@ -130,9 +130,9 @@ function custom_download_button_shortcode($atts, $content = null) {
         <button 
             class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" 
             type="submit" style="z-index:2;height:50px; width:200px;" 
-            title="<?php esc_attr_e( 'Download', 'custom-download' ); ?>" 
+            title="<?php esc_attr_e( 'Download', 'quick-download-button' ); ?>" 
             data-pid="<?php echo $pid; ?>"
-            <?php echo !empty($a['url_external'])? 'formtarget="_blank"' : '' ; ?>><?php esc_attr( printf(__('%s', 'custom-download'),$a['title']) );?></button>
+            <?php echo !empty($a['url_external'])? 'formtarget="_blank"' : '' ; ?>><?php esc_attr( printf(__('%s', 'quick-download-button'),$a['title']) );?></button>
       </form>
 
         <?php  
@@ -197,7 +197,7 @@ function custom_download_button_shortcode($atts, $content = null) {
     return ob_get_clean();
 }
 
-add_shortcode('custom_download', 'custom_download_button_shortcode');
+add_shortcode('quick_download_button', 'quick_download_button_shortcode');
 
 //convert URL to path
 if(!function_exists('convert_url_to_path')) {

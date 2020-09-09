@@ -13,23 +13,28 @@ const download = (
 
 const pluginDownloadDir = custom_data.download_file_url;
 
-registerBlockType( 'custom-download/download-button', {
-    title: __('Download Button','custom-download'),
+registerBlockType( 'quick-download-button/download-button', {
+    title: __('Download Button','quick-download-button'),
     icon: download,
+    description: __('Use download button for your file download link.', 'quick-download-button'),
     category: 'media',
+    keywords: [
+        __('download', 'quick-download-button'),
+        __('button', 'quick-download-button'),
+    ],
     attributes: {
         downloadTitle : {
             type: 'string',
             source: 'text',
             selector: 'button',
-            default: __('Download', 'custom-download')
+            default: __('Download', 'quick-download-button')
         },
         downloadTitlePlaceholder : {
             type: 'string',
             source: 'attribute', 
             selector: 'button',
             attribute: 'title',
-            default: __('Download', 'custom-download')
+            default: __('Download', 'quick-download-button')
         },
         downloadDir: {
             type: 'string',
@@ -49,7 +54,7 @@ registerBlockType( 'custom-download/download-button', {
             type: "string",
             source: "text",
             selector: "p.down",
-            default: __('File size', 'custom-download')
+            default: __('File size', 'quick-download-button')
           },
           downloadId: {
             type: 'string',
@@ -124,7 +129,7 @@ registerBlockType( 'custom-download/download-button', {
                     <form method="post" onSubmit={handleSubmit}>
                         <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title={downloadTitlePlaceholder}>
                         <RichText 
-                            placeholder={__("Download", "custom-download")}
+                            placeholder={__("Download", "quick-download-button")}
                             onChange= { onChangeTitle}
                             value= {downloadTitle}
                             />
@@ -140,7 +145,7 @@ registerBlockType( 'custom-download/download-button', {
                               onClick={open}
                               icon={download}
                               showTooltip="true"
-                              label={__("Upload File.", "custom-download")}
+                              label={__("Upload File.", "quick-download-button")}
                             /> 
                           )}
                     />

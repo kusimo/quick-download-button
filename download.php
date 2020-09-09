@@ -1,5 +1,5 @@
 <?php
-$actual_link = "http://$_SERVER[HTTP_HOST]";
+$actual_link = "$_SERVER[HTTP_HOST]";
 
 if (strstr($_SERVER['HTTP_REFERER'], $actual_link) !== false) {
     $current_url = $_SERVER['SERVER_NAME'];
