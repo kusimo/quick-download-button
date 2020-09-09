@@ -1,4 +1,6 @@
 /node_modules
+/build/index.js.map
+**/.DS_Store
+/screenshot/.DS_Store
 /.DS_store
 /build/.DS_Store
-/build/index.js.map
