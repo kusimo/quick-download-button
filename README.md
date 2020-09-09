@@ -1,6 +1,8 @@
 # Quick Download Button WordPress Plugin
 Quick download button is a download button for WordPress. You can easily add a better download link to your post with this plugin. 
 
+![Image of Quick Download Button](https://github.com/kusimo/Wordpress-KJV-Bible/blob/master/quick-download-button.png)
+
 ## Plugin's features: 
 
 * Support for WordPress Gutenberg
@@ -15,7 +17,7 @@ Quick download button is a download button for WordPress. You can easily add a b
 
 # Basic Usage 
 ## Gutenberg Block
-Open the post you want to add download link to, click on add block icon (+). Under Media, click on Download Button icon.
+Open the post you want to add download link to, click on add block icon (+). Under Media, click on Download Button icon. Click on the button to change the title, click on download icon next to the button to upload a file for download.
 
 ## Shortcode
 Open the post or page you want to add download button to, paste the shortcode example below
