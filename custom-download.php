@@ -103,8 +103,7 @@ function custom_download_register_blocks() {
 
 function custom_download_button_shortcode($atts, $content = null) {
     $a = shortcode_atts(array(
-        'title' => 'Download',
-        'bgcolor' => 'default',
+        'title' => _('Download', 'custom-download'),
         'filesize' => '',
         'duration' => '',
         'url' => '',
@@ -128,9 +127,12 @@ function custom_download_button_shortcode($atts, $content = null) {
 
     <div class="button--download" style="margin: 6rem auto;width: 200px;">
       <form method="<?php echo !empty($a['url'])? 'post' : 'get' ; ?>" action="<?php echo $url ; ?>">
-        <button class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" type="submit" style="z-index:2;height:50px; width:200px;" title="Download" data-pid="<?php echo $pid; ?>" <?php echo !empty($a['url_external'])? 'formtarget="_blank"' : '' ; ?> >
-        <?php echo $a['title']; ?>
-        </button>
+        <button 
+            class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" 
+            type="submit" style="z-index:2;height:50px; width:200px;" 
+            title="<?php esc_attr_e( 'Download', 'custom-download' ); ?>" 
+            data-pid="<?php echo $pid; ?>"
+            <?php echo !empty($a['url_external'])? 'formtarget="_blank"' : '' ; ?>><?php esc_attr( printf(__('%s', 'custom-download'),$a['title']) );?></button>
       </form>
 
         <?php  
@@ -166,16 +168,23 @@ function custom_download_button_shortcode($atts, $content = null) {
         <?php endif ;  ?>
 
         <?php if( '1' === $a['filesize'] ) : 
-            echo '<p class="down"><i class="fi-folder-o"></i>';
-                $file_url = filesize(convert_url_to_path($a['url']) );
-                $file_size = formatSizeUnits($file_url);
-                if('0 bytes' != $file_size) echo formatSizeUnits($file_url);
-            echo '</p>';
+            $file_url = filesize(convert_url_to_path($a['url']) );
+            $file_size = formatSizeUnits($file_url);
+            if('0 bytes' != $file_size) {
+                    $file_blob_size = formatSizeUnits($file_url);
+                    $blob_number = explode(' ', $file_blob_size);
+                    $blob_number = $blob_number[0];
 
-        elseif('' !== $a['filesize']) :
-            echo '<p class="down"><i class="fi-folder-o"></i> ';
-                    echo $a['filesize'];
-            echo '</p>';
+                    $blob_measure = explode(' ', $file_blob_size);
+                    $blob_measure = $blob_measure[1];
+
+                }
+                /* translators: %1$s is a filesize %2$s is the measurement */
+                printf( __( '<p class="down"><i class="fi-folder-o"></i> %1$s %2$s</p>'), esc_attr($blob_number), esc_attr($blob_measure));
+
+            elseif('' !== $a['filesize']) :
+                 /* translators: %1$s is a filesize */
+                printf( __( '<p class="down"><i class="fi-folder-o"></i> %1$s </p>'), esc_attr($a['filesize']));
 
         //else :
         ?>

@@ -41,7 +41,7 @@ registerBlockType( 'custom-download/download-button', {
             type: "string",
             source: "text",
             selector: "p.down",
-            default: "File size"
+            default: __('File size', 'custom-download')
           },
           downloadId: {
             type: 'string',
