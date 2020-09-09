@@ -141,6 +141,12 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
       source: "text",
       selector: "p.down",
       default: "File size"
+    },
+    downloadId: {
+      type: 'string',
+      source: 'attribute',
+      selector: '.custom-download-button-inner',
+      attribute: 'id'
     }
   },
   edit: function edit(props) {
@@ -151,6 +157,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
         downloadTitle = _props$attributes.downloadTitle,
         downloadUrl = _props$attributes.downloadUrl,
         downloadFileSize = _props$attributes.downloadFileSize,
+        downloadId = _props$attributes.downloadId,
         setAttributes = props.setAttributes,
         className = props.className;
 
@@ -161,26 +168,27 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     };
 
     var onMediaSelect = function onMediaSelect(uploadObject) {
-      //console.info('Media Info: ', uploadObject);
+      console.info('Media Info: ', uploadObject);
       setAttributes({
         downloadUrl: uploadObject.url
       });
       setAttributes({
         downloadFileSize: uploadObject.filesizeHumanReadable
       });
+      setAttributes({
+        downloadId: uploadObject.id
+      });
     };
 
     var downloadExt = downloadUrl.substr(downloadUrl.lastIndexOf('.') + 1);
-    var extensionArray = ['pdf', 'mp3', 'mov', 'zip', 'txt', 'doc', 'xml', 'mp4', 'ppt'];
+    downloadExt = downloadExt.trim();
+    console.log('ID: ', downloadId); //const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
+
     var imageExtension = ['jpg', 'jpeg', 'tiff', 'png', 'bmp', 'gif'];
-    var foundExt = imageExtension.includes(downloadExt.toLowerCase());
+    var foundExt = imageExtension.includes(downloadExt.toLowerCase()); //Image
 
     if (foundExt === true) {
       downloadExt = 'image';
-    } else if (extensionArray.indexOf(downloadExt) == -1) {
-      downloadExt = 'file';
-    } else {
-      downloadExt = 'file';
     }
 
     var handleSubmit = function handleSubmit(event) {
@@ -190,7 +198,8 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "".concat(className, " button--download")
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "custom-download-button-inner"
+      className: "custom-download-button-inner",
+      id: downloadId
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("form", {
       method: "post",
       onSubmit: handleSubmit
@@ -198,7 +207,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
       className: "g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title",
       type: "submit",
       title: "Download",
-      "data-pid": "15560"
+      formtarget: "_blank"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["RichText"], {
       placeholder: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])("Download", "custom-download"),
       onChange: onChangeTitle,
@@ -227,23 +236,21 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
     }), downloadFileSize))));
   },
   save: function save(props) {
-    var downloadExt = props.attributes.downloadUrl.substr(props.attributes.downloadUrl.lastIndexOf('.') + 1);
-    var extensionArray = ['pdf', 'mp3', 'mov', 'zip', 'txt', 'doc', 'xml', 'mp4', 'ppt'];
+    var downloadExt = props.attributes.downloadUrl.substr(props.attributes.downloadUrl.lastIndexOf('.') + 1); //const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
+
     var imageExtension = ['jpg', 'jpeg', 'tiff', 'png', 'bmp', 'gif'];
     var foundExt = imageExtension.includes(downloadExt.toLowerCase());
 
     if (foundExt === true) {
       downloadExt = 'image';
-    } else if (extensionArray.indexOf(downloadExt) == -1) {
-      downloadExt = 'file';
-    } else {
-      downloadExt = 'file';
     }
 
+    var downloadId = props.attributes.downloadId;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "button--download"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "custom-download-button-inner"
+      className: "custom-download-button-inner",
+      id: downloadId
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("form", {
       method: "post",
       action: props.attributes.downloadUrl
@@ -251,7 +258,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('cus
       className: "g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title",
       type: "submit",
       title: "Download",
-      "data-pid": "15560"
+      formtarget: "_blank"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["RichText"].Content, {
       value: props.attributes.downloadTitle
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {

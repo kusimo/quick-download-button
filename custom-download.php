@@ -52,6 +52,15 @@ function custom_download_register_blocks() {
 		$custom_download_asset_file['dependencies'],		// dependencies
 		filemtime( plugin_dir_path( __FILE__ ) . 'build/index.js' )		// set version as file last modified time
     );
+
+    //Localise script
+    wp_localize_script(
+        'custom-download-editor-script',
+        'custom_data',
+        array(
+            'download_file_url' => plugins_url( 'download.php', __FILE__ )
+        )
+    );
     
     // Register the block editor stylesheet.
 	wp_register_style(

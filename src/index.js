@@ -10,6 +10,7 @@ const download = (
 		<Path d="M18 11.3l-1-1.1-4 4V3h-1.5v11.3L7 10.2l-1 1.1 6.2 5.8 5.8-5.8zm.5 3.7v3.5h-13V15H4v5h16v-5h-1.5z" />
 	</SVG>
 );
+
  
 registerBlockType( 'custom-download/download-button', {
     title: __('Download Button','custom-download'),
@@ -33,7 +34,14 @@ registerBlockType( 'custom-download/download-button', {
             source: "text",
             selector: "p.down",
             default: "File size"
-          }
+          },
+          downloadId: {
+            type: 'string',
+            source: 'attribute',
+            selector: '.custom-download-button-inner',
+            attribute: 'id'
+        }
+
     },
 
     edit: props => {
@@ -43,7 +51,7 @@ registerBlockType( 'custom-download/download-button', {
 
         // Lift info from props and populate various constants.
         const {
-            attributes : {downloadTitle, downloadUrl, downloadFileSize},
+            attributes : {downloadTitle, downloadUrl, downloadFileSize, downloadId},
             setAttributes,
             className
         } = props;
@@ -53,23 +61,23 @@ registerBlockType( 'custom-download/download-button', {
         };
 
         const onMediaSelect = uploadObject => {
-            //console.info('Media Info: ', uploadObject);
+            console.info('Media Info: ', uploadObject);
             setAttributes({ downloadUrl: uploadObject.url });
             setAttributes({ downloadFileSize: uploadObject.filesizeHumanReadable });
+            setAttributes({ downloadId: uploadObject.id });
           }
 
           let downloadExt = downloadUrl.substr(downloadUrl.lastIndexOf('.') + 1);
-          const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
+          downloadExt = downloadExt.trim();
+          console.log('ID: ', downloadId);
+          //const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
           const imageExtension = ['jpg','jpeg','tiff','png','bmp','gif'];
           const foundExt = imageExtension.includes(downloadExt.toLowerCase());
+          //Image
           if(foundExt === true) {
             downloadExt = 'image';
-          } else if (extensionArray.indexOf(downloadExt) == -1) {
-            downloadExt = 'file';
-          }
-          else {
-            downloadExt = 'file';
-          }
+          } 
+         
          
 
           const handleSubmit = (event) => {
@@ -80,9 +88,9 @@ registerBlockType( 'custom-download/download-button', {
 
         return (
             <div className= {`${className} button--download`}>
-                <div className="custom-download-button-inner">
+                <div className="custom-download-button-inner" id={downloadId}>
                     <form method="post" onSubmit={handleSubmit} >
-                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" data-pid="15560">
+                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" formtarget="_blank">
                         <RichText 
                             placeholder={__("Download", "custom-download")}
                             onChange= { onChangeTitle}
@@ -116,23 +124,22 @@ registerBlockType( 'custom-download/download-button', {
     },
     save: props =>  {
         let downloadExt = props.attributes.downloadUrl.substr(props.attributes.downloadUrl.lastIndexOf('.') + 1);
-        const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
+            //const extensionArray = ['pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt'];
           const imageExtension = ['jpg','jpeg','tiff','png','bmp','gif'];
           const foundExt = imageExtension.includes(downloadExt.toLowerCase());
           if(foundExt === true) {
             downloadExt = 'image';
-          } else if (extensionArray.indexOf(downloadExt) == -1) {
-            downloadExt = 'file';
-          }
-          else {
-            downloadExt = 'file';
-          }
+          } 
+
+          const {
+            attributes: { downloadId }
+          } = props;
 
         return (
             <div className="button--download">
-                 <div className="custom-download-button-inner">
+                 <div className="custom-download-button-inner" id={downloadId}>
                     <form method="post" action={props.attributes.downloadUrl}>
-                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" data-pid="15560">
+                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" formtarget="_blank">
                             <RichText.Content value={props.attributes.downloadTitle} />
                         </button>
                     
