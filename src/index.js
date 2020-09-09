@@ -46,7 +46,7 @@ registerBlockType( 'custom-download/download-button', {
           downloadId: {
             type: 'string',
             source: 'attribute',
-            selector: '.custom-download-button-inner',
+            selector: '.button--download',
             attribute: 'id'
         }
 
@@ -110,9 +110,9 @@ registerBlockType( 'custom-download/download-button', {
       
 
         return (
-            <div className= {`${className} button--download`}>
-                <div className="custom-download-button-inner" id={downloadId}>
-                    <form method="post" onSubmit={handleSubmit} >
+            <div className= {`${className} button--download`} id={downloadId}>
+                <div className="custom-download-button-inner">
+                    <form method="post" onSubmit={handleSubmit}>
                         <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" formtarget="_blank">
                         <RichText 
                             placeholder={__("Download", "custom-download")}
@@ -126,7 +126,7 @@ registerBlockType( 'custom-download/download-button', {
                         onSelect={onMediaSelect}
                         value={props.attributes.downloadUrl}
                         render={({ open }) => (
-                            <IconButton
+                            <Button
                               className="custom-download-logo__button"
                               onClick={open}
                               icon={download}
@@ -151,8 +151,8 @@ registerBlockType( 'custom-download/download-button', {
           } = props;
 
         return (
-            <div className="button--download">
-                 <div className="custom-download-button-inner" id={downloadId}>
+            <div className="button--download" id={downloadId}>
+                 <div className="custom-download-button-inner">
                     <form method="post" action={downloadDir}>
                         <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title="Download" formtarget="_blank">
                             <RichText.Content value={props.attributes.downloadTitle} />
