@@ -1,9 +1,7 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+$actual_link = "http://$_SERVER[HTTP_HOST]";
 
-if (strstr($_SERVER['HTTP_REFERER'], 'http://localhost/mainstream/') !== false) {
+if (strstr($_SERVER['HTTP_REFERER'], $actual_link) !== false) {
     $current_url = $_SERVER['SERVER_NAME'];
     $track_id = $_GET['aid'];
 
@@ -22,7 +20,7 @@ if (strstr($_SERVER['HTTP_REFERER'], 'http://localhost/mainstream/') !== false) 
         // print_r($filepath);
         define('WP_USE_THEMES', false);
         require(''.$filepath[0].'/wp-blog-header.php');
-        
+
         global $post;
 
         $file_url = wp_get_attachment_url($track_id);
