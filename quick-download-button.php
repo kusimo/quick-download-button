@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Quick Download Button 
  * Plugin URI: https://github.com/kusimo/quick-download-button
- * Description: Custom block plugin for download button with color, file extension options and shortcode.
+ * Description: Use to add download button link to post or page.
  * Version: 1.0.0
  * Author: Abidemi Kusimo
  *
@@ -127,6 +127,7 @@ function quick_download_button_shortcode($atts, $content = null) {
 
     <div class="button--download" style="margin: 6rem auto;width: 200px;">
       <form method="<?php echo !empty($a['url'])? 'post' : 'get' ; ?>" action="<?php echo $url ; ?>">
+        <?php wp_nonce_field(); ?>
         <button 
             class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" 
             type="submit" style="z-index:2;height:50px; width:200px;" 
@@ -168,10 +169,10 @@ function quick_download_button_shortcode($atts, $content = null) {
         <?php endif ;  ?>
 
         <?php if( '1' === $a['filesize'] ) : 
-            $file_url = filesize(convert_url_to_path($a['url']) );
-            $file_size = formatSizeUnits($file_url);
+            $file_url = filesize(qdb_convert_url_to_path($a['url']) );
+            $file_size = qdb_formatSizeUnits($file_url);
             if('0 bytes' != $file_size) {
-                    $file_blob_size = formatSizeUnits($file_url);
+                    $file_blob_size = qdb_formatSizeUnits($file_url);
                     $blob_number = explode(' ', $file_blob_size);
                     $blob_number = $blob_number[0];
 
@@ -200,8 +201,8 @@ function quick_download_button_shortcode($atts, $content = null) {
 add_shortcode('quick_download_button', 'quick_download_button_shortcode');
 
 //convert URL to path
-if(!function_exists('convert_url_to_path')) {
-    function convert_url_to_path( $url ) {
+if(!function_exists('qdb_convert_url_to_path')) {
+    function qdb_convert_url_to_path( $url ) {
         return str_replace( 
             wp_get_upload_dir()['baseurl'], 
             wp_get_upload_dir()['basedir'], 
@@ -212,8 +213,8 @@ if(!function_exists('convert_url_to_path')) {
 
 
 //get file size
-if(!function_exists('formatSizeUnits')) {
-	function formatSizeUnits($bytes)
+if(!function_exists('qdb_formatSizeUnits')) {
+	function qdb_formatSizeUnits($bytes)
     {
         if ($bytes >= 1073741824)
         {
