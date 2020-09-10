@@ -102,6 +102,9 @@ To use in your theme file, add the code below with necessary attributes and valu
 echo do_shortcode('[quick_download_button title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]');
 `
 
+== Documentation ==
+You can find out more on how to use this plugin on the [Documentation] (https://basichow.com/quick-download-button-wordpress-plugin/)
+
 == Frequently Asked Questions ==
 
 = Can this plugin be used to hide (protect) download link on my site? =
