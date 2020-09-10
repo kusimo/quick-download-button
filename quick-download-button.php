@@ -132,7 +132,7 @@ function quick_download_button_shortcode($atts, $content = null) {
             type="submit" style="z-index:2;height:50px; width:200px;" 
             title="<?php esc_attr_e( 'Download', 'quick-download-button' ); ?>" 
             data-pid="<?php echo $pid; ?>"
-            <?php echo !empty($a['url_external'])? 'formtarget="_blank"' : '' ; ?>><?php esc_attr( printf(__('%s', 'quick-download-button'),$a['title']) );?></button>
+            <?php echo !empty($a['url_external'])? 'formtarget="_blank"' : '' ; ?>><?php echo esc_attr( $a['title'] );?></button>
       </form>
 
         <?php  
