@@ -1,5 +1,5 @@
 # Quick Download Button WordPress Plugin
-Quick download button is a download button for WordPress. You can easily add a better download link to your post with this plugin. 
+[Quick download button](https://basichow.com/quick-download-button-wordpress-plugin/) is a download button for WordPress. You can easily add a better download link to your post with this plugin. 
 
 ![Image of Quick Download Button](https://github.com/kusimo/quick-download-button/blob/master/screenshot/quick-download-button.png)
 
@@ -7,6 +7,9 @@ Quick download button is a download button for WordPress. You can easily add a b
 
 * Support for WordPress Gutenberg
 * Display file size and file extension. 
+* Create a download button link with shortcode with options
+* Link your download button to anywhere on the web where it's publicly available.
+* Allow free music download, video download, PDF download, spreadsheet file download and more.
 * Hide download link
 * Support for external download link 
 * Shows download file extension for 'pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt' and images ( png, gif, jpg, jpeg, bmp)
@@ -17,7 +20,10 @@ Quick download button is a download button for WordPress. You can easily add a b
 
 # Basic Usage 
 ## Gutenberg Block
-Open the post you want to add download link to, click on add block icon (+). Under Media, click on Download Button icon. Click on the button to change the title, click on download icon next to the button to upload a file for download.
+1. Open the post you want to add a download link to, click on add block icon (+).
+2. Under Media, click on the Download Button icon.
+3. Click on the button to change the title, click on the download icon next to the button to upload a file for download.
+4. Enter a suitable title in the text box, the default title is download. All done!
 
 ## Shortcode
 Open the post or page you want to add download button to, paste the shortcode example below
@@ -25,7 +31,7 @@ Open the post or page you want to add download button to, paste the shortcode ex
 ```
 [quick_download_button title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 ```
-The **url** value needs to be replaced with your media link URL. The **title** value is for download button title. Default value is Download. 
+The url value needs to be replaced with your media link URL. To change the title, enter a different text in the title value. The default value is Download.
 
 # Additional Shortcode Usage
 
@@ -76,3 +82,5 @@ To show both file extension icon and text,  set extension value to 1 and extensi
 ```
 echo do_shortcode('[quick_download_button title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]');
 ```
+# Documentation #
+You can find out more on how to use this plugin on the [Documentation](https://basichow.com/quick-download-button-wordpress-plugin/)
