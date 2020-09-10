@@ -23,7 +23,7 @@
 1. Open the post you want to add a download link to, click on add block icon (+).
 2. Under Media, click on the Download Button icon.
 3. Click on the button to change the title, click on the download icon next to the button to upload a file for download.
-4. Enter a suitable title in the text box, the default title is download. All done!
+4. Enter a suitable title in the text box, the default title is download. Wola! :punch:
 
 ## Shortcode
 Open the post or page you want to add download button to, paste the shortcode example below
