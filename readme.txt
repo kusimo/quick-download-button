@@ -22,6 +22,9 @@ Quick download button is a download button for WordPress. You can easily add a b
 
 * Support for WordPress Gutenberg
 * Display file size and file extension. 
+* Create a download button link with shortcode with options
+* Link your download button to anywhere on the web where it's publicly available.
+* Allow free music download, video download, PDF download, spreadsheet file download and more.
 * Hide download link
 * Support for external download link 
 * Shows download file extension for 'pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt' and images ( png, gif, jpg, jpeg, bmp)
@@ -33,20 +36,23 @@ Quick download button is a download button for WordPress. You can easily add a b
  == Basic Usage ==
 
  ** Gutenberg Block **
-Open the post you want to add download link to, click on add block icon (+). 
-Under Media, click on Download Button icon. Click on the button to change the title, click on download icon next to the button to upload a file for download.
+
+1. Open the post you want to add a download link to, click on add block icon (+).
+2. Under Media, click on the Download Button icon.
+3. Click on the button to change the title, click on the download icon next to the button to upload a file for download.
+4. Enter a suitable title in the text box, the default title is download. All done!
 
 ** Shortcode **
-Open the post or page you want to add download button to, paste the shortcode example below
+Open the post or page you want to add a download button to, paste the shortcode example below
 
 `
 [quick_download_button title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 `
-The url value needs to be replaced with your media link URL. The title value is for download button title. Default value is Download. 
+The url value needs to be replaced with your media link URL. To change the title, enter a different text in the title value. The default value is Download.
 
 == More Shortcode Usage ==
 
-** Use external URL **
+** Link to external URL **
 
 To use external url, add url_external attribute
 
@@ -54,31 +60,31 @@ To use external url, add url_external attribute
 [quick_download_button title="Download" url_external="https://google.com"]
 `
 
-** Auto calculate file size. **
+** Auto calculates file size. **
 
-To let the plugin generate file size, make sure the file is in the WordPress upload directory e.g wp-content/upload and change filesize value to 1 like below
+To let the plugin generate file size, make sure the file URL link is in the WordPress upload directory when using with shortcode e.g wp-content/upload and change filesize value to 1 like below
 
 `
 [quick_download_button filesize="1" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 `
 
-** Display file size manually **
+** Add file size manually **
 
-The plugin can calculate the file size for you by enter 1 in filesize value. You don't have to enter it manually but in case, enter the file size value in the filesize attribute like below.
+The plugin can calculate the file size for you by entering 1 in the filesize value. You don't have to enter it manually but in case, enter the file size value in the filesize attribute like below.
 
 `
 [quick_download_button filesize="14.5MB" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 `
 
 
-** Show file extention icon **
-To show file extension icon, set extension value to 1
+** Show icon for file extension **
+To show icon image for the file extension, set the extension value to 1
 
 `
 [quick_download_button  title="Download" filesize="1" extension="1" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 `
 
-** Show file extention icon and text **
+** Show icon image and file extension text **
 
 To show both file extension icon and text,  set extension value to 1 and extension_text to 1
 
@@ -89,6 +95,8 @@ To show both file extension icon and text,  set extension value to 1 and extensi
 
 
 == To use in a theme file (Developers) ==
+
+To use in your theme file, add the code below with necessary attributes and values.
 
 `
 echo do_shortcode('[quick_download_button title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]');
