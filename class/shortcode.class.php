@@ -75,7 +75,7 @@ class QuickDownloadShortCode {
             ?>
     
             <?php if ('' != $this->a['extension']) : ?>
-                <p class="up"><i class="<?php echo sanitize_html_class($file_icon); ?>"></i>
+                <p class="up"><i class="<?php echo esc_html($file_icon); ?>"></i>
                     <?php if ('1' == $this->a['extension_text']) echo '<span>' . esc_attr( $file_extension) . '</span>'; ?></p>
             <?php endif;  ?>
     
