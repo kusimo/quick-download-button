@@ -17,7 +17,7 @@ registerBlockType( 'quick-download-button/download-button', {
     title: __('Download Button','quick-download-button'),
     icon: download,
     description: __('Use download button for your file download link.', 'quick-download-button'),
-    category: 'media',
+    category: 'widgets',
     keywords: [
         __('download', 'quick-download-button'),
         __('button', 'quick-download-button'),
@@ -67,8 +67,7 @@ registerBlockType( 'quick-download-button/download-button', {
 
     edit: props => {
 
-        // Props parameter holds all the info.
-        //console.info(props);
+        // Props parameter holds all the info. 
 
         // Lift info from props and populate various constants.
         const {
