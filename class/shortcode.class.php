@@ -42,9 +42,9 @@ class QuickDownloadShortCode {
     ?>
     
         <div class="button--download" style="margin: 6rem auto;width: 200px;">
-            <form method="<?php echo !empty($this->a['url']) ? 'post' : 'get'; ?>" action="<?php echo $this->url; ?>">
+            <form method="<?php echo !empty( esc_url($this->a['url']))  ? 'post' : 'get'; ?>" action="<?php echo esc_url($this->url); ?>">
                 <?php wp_nonce_field(); ?>
-                <button class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" type="submit" style="z-index:2;height:50px; width:200px;" title="<?php esc_attr_e('Download', 'quick-download-button'); ?>" data-pid="<?php echo $this->pid; ?>" <?php echo !empty($this->a['url_external']) ? 'formtarget="_blank"' : ''; ?>><?php echo esc_attr($this->a['title']); ?></button>
+                <button class="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0" type="submit" style="z-index:2;height:50px; width:200px;" title="<?php esc_attr_e('Download', 'quick-download-button'); ?>" data-pid="<?php echo intval($this->pid); ?>" <?php echo !empty( esc_url( $this->a['url_external'] ) ) ? 'formtarget="_blank"' : ''; ?>><?php echo esc_attr($this->a['title']); ?></button>
             </form>
     
             <?php
@@ -75,8 +75,8 @@ class QuickDownloadShortCode {
             ?>
     
             <?php if ('' != $this->a['extension']) : ?>
-                <p class="up"><i class="<?php echo $file_icon; ?>"></i>
-                    <?php if ('1' == $this->a['extension_text']) echo '<span>' . $file_extension . '</span>'; ?></p>
+                <p class="up"><i class="<?php echo sanitize_html_class($file_icon); ?>"></i>
+                    <?php if ('1' == $this->a['extension_text']) echo '<span>' . esc_attr( $file_extension) . '</span>'; ?></p>
             <?php endif;  ?>
     
             <?php if ('1' === $this->a['filesize']) :
