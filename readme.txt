@@ -11,7 +11,7 @@ Requires PHP: 5.6
 Quick download button with block and shortcode support.
 
 == Description ==
-[Quick download button](https://basichow.com/quick-download-button-wordpress-plugin/) is a download button for WordPress. You can easily add a better download link to your post with this plugin.
+Quick download button is a download button for WordPress. You can easily add a better download link to your post with this plugin.
 
 
 == Installation ==
@@ -103,7 +103,8 @@ echo do_shortcode('[quick_download_button title="Download" url="http://yoursite/
 `
 
 == Documentation ==
-You can find out more on how to use this plugin on the [Documentation](https://basichow.com/quick-download-button-wordpress-plugin/)
+You can find out more on how to use this plugin on the [Documentation](https://basichow.com/quick-download-button-wordpress-plugin/). 
+To contribute and improve this plugin please visit the [Git repo](https://github.com/kusimo/quick-download-button).
 
 == Frequently Asked Questions ==
 
