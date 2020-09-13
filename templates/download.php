@@ -2,23 +2,30 @@
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
-$actual_link = "$_SERVER[HTTP_HOST]"? : "";
 
-if(isset($_SERVER['HTTP_REFERER']))  {
-    if (strstr($_SERVER['HTTP_REFERER'], $actual_link) !== false) {
-        $current_url = $_SERVER['SERVER_NAME'];
-        if(!empty($_GET)) $attachment_id = $_GET['aid'];
-    
-        if (!empty($attachment_id)) {
-    
-    
-            require_once(dirname(__DIR__).'/class/download.class.php');
-    
-            $download = new DownloadFile($attachment_id);
+$nonce = $_REQUEST['_wpnonce'];
+if ( ! wp_verify_nonce( $nonce, 'qdbutton_nonce_action' ) )  {
+ 
+   print 'Sorry, your nonce did not verify.';
+
+   exit;
+ 
+} else {
+    //Get the attachment ID
+    if (isset($_GET['aid'])) $attachment_id = esc_attr($_GET['aid']); 
+
+    //Validate number
+    if( intval($attachment_id) ) {
+
+        require_once(dirname(__DIR__).'/class/download.class.php');
+
+        $download = new QDBU_DownloadFile($attachment_id);
         
-            $download->fileFromUrl();
-        }
-       
-    } 
-} 
+    //Download the file
+        $download->fileFromUrl();
+    }
+    
+
+}
+
 

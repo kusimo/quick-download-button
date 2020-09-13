@@ -60,11 +60,11 @@ The plugin can calculate the file size for you by enter 1 in filesize value. You
 ```
 
 
-## Show file extention icon
-To show file extension icon, set extension value to 1
+## Hide file extention icon
+To hide file extension icon, set extension value to 0. Note, this will also hide extension text.
 
 ```
-[quick_download_button  title="Download" filesize="1" extension="1" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+[quick_download_button  title="Download" filesize="1" extension="0" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 ```
 
 ## Show file extention icon and text

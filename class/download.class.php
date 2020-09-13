@@ -3,14 +3,21 @@
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 
-class DownloadFile {
+/**
+ * Download File Class
+ */
+class QDBU_DownloadFile {
     protected $attachment_id, $file_url, $attachment_title;
 
     public function __construct($attachment_id)
     {
         $this->attachment_id = $attachment_id;
     }
-
+    
+    /**
+     * @usage Get the attachment file URL
+     * @return void
+     */
     public function getFullPath() {
         $this->file_url = wp_get_attachment_url($this->attachment_id);
         $this->attachment_title = get_the_title($this->attachment_id);
@@ -18,13 +25,17 @@ class DownloadFile {
 
         if (file_exists($this->file_url)) {
 
-            return $this->file_url;
+            return esc_url($this->file_url);
         }
         return;
 
         
     }
-
+    
+    /**
+     * @usage Download the attachment file
+     * @return void
+     */
     public function fileFromUrl() {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');

@@ -2,20 +2,21 @@ import { registerBlockType } from '@wordpress/blocks';
 import { SVG, Path } from '@wordpress/primitives';
 import { __ } from '@wordpress/i18n';
 import { RichText, MediaUpload } from '@wordpress/block-editor';
-import { Button, IconButton } from '@wordpress/components'
+import { Button } from '@wordpress/components';
 
 
-const download = (
+const download_button_icon = (
 	<SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<Path d="M18 11.3l-1-1.1-4 4V3h-1.5v11.3L7 10.2l-1 1.1 6.2 5.8 5.8-5.8zm.5 3.7v3.5h-13V15H4v5h16v-5h-1.5z" />
 	</SVG>
 );
 
-const pluginDownloadDir = custom_data.download_file_url;
+
+
 
 registerBlockType( 'quick-download-button/download-button', {
     title: __('Download Button','quick-download-button'),
-    icon: download,
+    icon: download_button_icon,
     description: __('Use download button for your file download link.', 'quick-download-button'),
     category: 'widgets',
     keywords: [
@@ -36,12 +37,18 @@ registerBlockType( 'quick-download-button/download-button', {
             attribute: 'title',
             default: __('Download', 'quick-download-button')
         },
-        downloadDir: {
+        downloadPageId: {
             type: 'string',
             source: 'attribute',
-            selector: 'form',
-            attribute: 'action',
-            default: custom_data.download_file_url
+            selector: 'button',
+            attribute: 'data-page-id',
+            default: qdbu_data.download_page_id
+        },
+        downloadAttachmentId: {
+            type: 'string',
+            source: 'attribute',
+            selector: 'button',
+            attribute: 'data-attachment-id'
         },
         downloadFormat: {
             type: 'string',
@@ -55,23 +62,17 @@ registerBlockType( 'quick-download-button/download-button', {
             source: "text",
             selector: "p.down",
             default: __('File size', 'quick-download-button')
-          },
-          downloadId: {
-            type: 'string',
-            source: 'attribute',
-            selector: '.button--download',
-            attribute: 'id'
-        }
+          }   
 
     },
 
     edit: props => {
 
-        // Props parameter holds all the info. 
+        // Props parameter holds all the info.   
 
         // Lift info from props and populate various constants.
         const {
-            attributes : {downloadTitle, downloadDir, downloadFileSize, downloadId, downloadFormat, downloadTitlePlaceholder},
+            attributes : {downloadTitle, downloadFileSize, downloadPageId, downloadAttachmentId, downloadFormat, downloadTitlePlaceholder},
             setAttributes,
             className
         } = props;
@@ -82,10 +83,11 @@ registerBlockType( 'quick-download-button/download-button', {
         };
 
         const onMediaSelect = uploadObject => {
-            console.info('Media Info: ', uploadObject);
+            //console.info('Media Info: ', uploadObject);
             setAttributes({ downloadFileSize: uploadObject.filesizeHumanReadable });
-            setAttributes({ downloadId: uploadObject.id });
-            setAttributes({ downloadDir: pluginDownloadDir+'?aid='+uploadObject.id });
+            let aid = parseInt(uploadObject.id)+parseInt(downloadPageId);
+            setAttributes({ downloadAttachmentId: aid });
+            setAttributes({ downloadPageId: qdbu_data.download_page_id }); 
 
             let fileExt = uploadObject.url.substr(uploadObject.url.lastIndexOf('.') + 1).trim();
 
@@ -123,10 +125,14 @@ registerBlockType( 'quick-download-button/download-button', {
       
 
         return (
-            <div className= {`${className} button--download`} id={downloadId}>
+            <div className= {`${className} button--download`}>
                 <div className="custom-download-button-inner">
-                    <form method="post" onSubmit={handleSubmit}>
-                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title={downloadTitlePlaceholder}>
+                        <button className="g-btn f-l position-relative shadow" 
+                        type="button" title={downloadTitlePlaceholder} 
+                        data-attachment-id={downloadAttachmentId} 
+                        data-page-id={downloadPageId}
+                        data-post-id=""
+                        onSubmit={handleSubmit}>
                         <RichText 
                             placeholder={__("Download", "quick-download-button")}
                             onChange= { onChangeTitle}
@@ -142,7 +148,7 @@ registerBlockType( 'quick-download-button/download-button', {
                             <Button
                               className="custom-download-logo__button"
                               onClick={open}
-                              icon={download}
+                              icon={download_button_icon}
                               showTooltip="true"
                               label={__("Upload File.", "quick-download-button")}
                             /> 
@@ -152,7 +158,6 @@ registerBlockType( 'quick-download-button/download-button', {
                     <p className="down"><i className="fi-folder-o"></i>
                     {downloadFileSize} 
                     </p>
-                    </form>
                 </div>
             </div>
         )
@@ -160,14 +165,17 @@ registerBlockType( 'quick-download-button/download-button', {
     },
     save: props =>  {
           const {
-            attributes: { downloadId, downloadDir, downloadFormat, downloadTitlePlaceholder }
+            attributes: { downloadAttachmentId, downloadPageId, downloadFormat, downloadTitlePlaceholder }
           } = props;
 
         return (
-            <div className="button--download" id={downloadId}>
+            <div className="button--download">
                  <div className="custom-download-button-inner">
-                    <form method="post" action={downloadDir}>
-                        <button className="g-btn f-l bsbtn d-block position-relative shadow rounded-lg border-0 download-btn-title" type="submit"  title={downloadTitlePlaceholder}>
+                        <button className="g-btn f-l position-relative shadow" type="button" 
+                        data-attachment-id={downloadAttachmentId} 
+                        data-page-id={downloadPageId}
+                        data-post-id=""
+                        title={downloadTitlePlaceholder}>
                             <RichText.Content value={props.attributes.downloadTitle} />
                         </button>
                     
@@ -176,7 +184,6 @@ registerBlockType( 'quick-download-button/download-button', {
                     <p className="down"><i className="fi-folder-o"></i>
                     {props.attributes.downloadFileSize}
                     </p>
-                    </form>
                 </div>
             </div>
         )

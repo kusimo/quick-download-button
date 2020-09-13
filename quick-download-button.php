@@ -13,14 +13,14 @@
 defined('ABSPATH') || exit;
 
 /**
- * Load translations (if any) for the plugin from the /languages/ folder.
+ * Load translations for the plugin from the /languages/ folder.
  * 
  * @link https://developer.wordpress.org/reference/functions/load_plugin_textdomain/
  */
 
-add_action('init', 'quick_download_button_load_textdomain');
+add_action('init', 'qdbu_quick_download_button_load_textdomain');
 
-function quick_download_button_load_textdomain()
+function qdbu_quick_download_button_load_textdomain()
 {
     load_plugin_textdomain('quick-download-button', false, basename(__DIR__) . '/languages');
 }
@@ -31,9 +31,9 @@ function quick_download_button_load_textdomain()
  *
  * @link https://wordpress.org/gutenberg/handbook/designers-developers/developers/block-api/block-registration/
  */
-add_action('init', 'quick_download_button_register_blocks');
+add_action('init', 'qdbu_quick_download_button_register_blocks');
 
-function quick_download_button_register_blocks()
+function qdbu_quick_download_button_register_blocks()
 {
 
     //If Block Editor is not active, bail.
@@ -48,38 +48,38 @@ function quick_download_button_register_blocks()
 
     //Register the block editor script
     wp_register_script(
-        'quick-download-button-editor-script',                    // label
-        plugins_url('build/index.js', __FILE__),            // script file
-        $quick_download_button_asset_file['dependencies'],        // dependencies
-        filemtime(plugin_dir_path(__FILE__) . 'build/index.js')        // set version as file last modified time
+        'quick-download-button-editor-script',                       // label
+        plugins_url('build/index.js', __FILE__),                     // script file
+        $quick_download_button_asset_file['dependencies'],           // dependencies 
+        filemtime(plugin_dir_path(__FILE__) . 'build/index.js')      // set version as file last modified time
     );
 
-    //Localise script - this is used for block download file url
+    //Localise script - download page ID
     wp_localize_script(
         'quick-download-button-editor-script',
-        'custom_data',
+        'qdbu_data',
         array(
-            'download_file_url' => qdb_default_url()
+            'download_page_id' => (int)get_option('qdbu_quick_download_button_page_id')
         )
     );
 
     // Register the block editor stylesheet.
     wp_register_style(
-        'quick-download-button-editor-styles',                                            // label
+        'quick-download-button-editor-styles',                      // label
         plugins_url('css/editor.css', __FILE__),                    // CSS file
-        array('wp-edit-blocks'),                                        // dependencies
-        filemtime(plugin_dir_path(__FILE__) . 'css/editor.css')    // set version as file last modified time
+        array('wp-edit-blocks'),                                    // dependencies
+        filemtime(plugin_dir_path(__FILE__) . 'css/editor.css')     // set version as file last modified time
     );
 
     // Register the front-end stylesheet.
     wp_register_style(
-        'quick-download-button-front-end-styles',                                        // label
-        plugins_url('css/style.css', __FILE__),                        // CSS file
-        array(),                                                        // dependencies
-        filemtime(plugin_dir_path(__FILE__) . 'css/style.css')    // set version as file last modified time
+        'quick-download-button-front-end-styles',                     // label
+        plugins_url('css/style.css', __FILE__),                       // CSS file
+        array(),                                                      // dependencies
+        filemtime(plugin_dir_path(__FILE__) . 'css/style.css')        // set version as file last modified time
     );
 
-    //register blocks script and styles
+    //Register blocks script and styles
     register_block_type('quick-download-button/download-button', array(
         'editor_script' => 'quick-download-button-editor-script',                    // Calls registered script above
         'editor_style' => 'quick-download-button-editor-styles',                    // Calls registered stylesheet above
@@ -98,13 +98,59 @@ function quick_download_button_register_blocks()
 }
 
 
+
+/**
+ * Front end Script
+ */
+
+
+function qdbu_button_front_end_script()
+{
+    wp_enqueue_script(
+        'quick-download-button-frontend-script',                    // label
+        plugins_url('frontend/index.js', __FILE__),            // script file
+        array('jquery'),        // dependencies
+        filemtime(plugin_dir_path(__FILE__) . 'frontend/index.js')        // set version as file last modified time
+        ,
+        true
+    );
+
+    wp_localize_script('quick-download-button-frontend-script', 'quick_download_object', array(
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'security' => wp_create_nonce('qdbutton_nonce_action'),
+        'redirecturl' => qdbu_default_url()
+    ));
+}
+add_action('wp_enqueue_scripts', 'qdbu_button_front_end_script');
+
+add_action('wp_ajax_nopriv_quick-download-button-frontend-script', 'qdbu_download_ajax_referer');
+add_action('wp_ajax_quick-download-button-frontend-script', 'qdbu_download_ajax_referer');
+
+
+/**
+ * Nonce to be used for download page 
+ */
+
+function qdbu_download_ajax_referer()
+{
+    //nonce-field is created on page
+    check_ajax_referer('qdbutton_nonce_action', 'security');
+
+    $return = array();
+    $return . array_push($script_params);
+
+    echo $return;
+
+    wp_die(); // You missed this too
+}
+
 /**
  * Shortcode
  */
 
 require_once('class/shortcode.class.php');
-$downloadShortcode = new QuickDownloadShortCode( __FILE__ );
-$downloadShortcode = new QuickDownloadShortCode;
+$downloadShortcode = new QDBU_QuickDownloadShortCode(__FILE__);
+$downloadShortcode = new QDBU_QuickDownloadShortCode;
 
 
 /**
@@ -112,33 +158,36 @@ $downloadShortcode = new QuickDownloadShortCode;
  * Incase user change the page slug, we use download page by ID
  * Download page name can be renamed before using the plugin. Rename just once and before using 
  * */
-if (!function_exists('qdb_default_url')) {
-    function qdb_default_url()
+if (!function_exists('qdbu_default_url')) {
+    function qdbu_default_url()
     {
 
         $quick_download_button_default_page = site_url() . '/quick-download-button/';
 
-        if (FALSE !== get_option('quick_download_button_page_id')) {
-            $quick_download_button_default_page = get_page_link(get_option('quick_download_button_page_id'));
+        if (FALSE !== get_option('qdbu_quick_download_button_page_id')) {
+            $quick_download_button_default_page = get_page_link(get_option('qdbu_quick_download_button_page_id'));
         }
         return $quick_download_button_default_page;
     }
 }
 
 
+
+add_filter('template_include', 'qdbu_download_button_plugin_templates');
+
 /**
- * Custom Template for the download page
+ * Get Custom Template for the download page
+ *
+ * @param  mixed $template
+ * @return void
  */
-
-add_filter('template_include', 'quick_download_button_plugin_templates');
-
-function quick_download_button_plugin_templates($template)
+function qdbu_download_button_plugin_templates($template)
 {
 
-    $quick_download_button_pid = get_option('quick_download_button_page_id');
+    $quick_download_button_pid = get_option('qdbu_quick_download_button_page_id');
 
     //Let's check we are on the right page and template file exists
-    if (is_page('quick-download-button') || is_page($quick_download_button_pid) && !file_exists(plugin_dir_url(__FILE__) . '/qdb-page-template.php')) {
+    if (is_page('quick-download-button') || is_page($quick_download_button_pid) && file_exists(plugin_dir_path( __DIR__ ) . 'quick-download-button/templates/qdb-page-template.php')) {
 
         $template = dirname(__FILE__) . '/templates/qdb-page-template.php';
     }
@@ -151,6 +200,6 @@ function quick_download_button_plugin_templates($template)
 
 require_once('class/create.downloadpage.class.php');
 
-$create_download_page = new CreateDownloadPage;
+$create_download_page = new QDBU_CreateDownloadPage;
 
 register_activation_hook(__FILE__, array($create_download_page, 'quickDownloadPage'));
