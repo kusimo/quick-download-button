@@ -16,7 +16,6 @@ if(null === elem_button_exist_on_page || '' === elem_button_exist_on_page) retur
         // Don't follow the link
         event.preventDefault();
     
-        // Log the clicked element in the console
         let button = event.target;
         let attachment_id = button.getAttribute('data-attachment-id');
         let download_url = button.getAttribute('data-page-id');
@@ -26,13 +25,16 @@ if(null === elem_button_exist_on_page || '' === elem_button_exist_on_page) retur
         let download_external_url = button.getAttribute('data-external-url');
 
         if(null !== download_external_url) {
-            if(null !== download_external_url) window.open(download_external_url,'_blank'); 
-            return;
-        } else {
 
+            if(null !== download_external_url) window.open(download_external_url,'_blank'); 
+
+            return;
+
+        } else {
+            
             var data = {
-                'action': 'qdbu_download_ajax_referer', // missed this same as your action hook wp_ajax_{handle_login}
-                'security': quick_download_object.security // We can access it this way
+                'action': 'qdbu_download_ajax_referer', 
+                'security': quick_download_object.security 
             }
             
        
