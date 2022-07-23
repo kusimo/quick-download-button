@@ -1,6 +1,6 @@
 {
   "name": "quick-download-button",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Custom download buttons with options for colors, hide/show file size and extension wordpress block and sortcode options.",
   "main": "build/index.js",
   "scripts": {
@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/kusimo/quick-download-button#readme",
   "devDependencies": {
-    "@wordpress/scripts": "12.2.0"
+    "@wordpress/scripts": "^23.5.0"
   }
 }
