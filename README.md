@@ -12,6 +12,8 @@
 * Allow free music download, video download, PDF download, spreadsheet file download and more.
 * Hide download link
 * Support for external download link 
+* Wait before download, you can specify how many seconds you want the user to wait before download starts ( Gutenberg Only for now)
+* Show the user a message while waiting for the download to start. 
 * Shows download file extension for 'pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt' and images ( png, gif, jpg, jpeg, bmp)
 * Support for htm, html, ps, tex, xml, txt, csv, xlsx (Microsoft Excel), pptx (Microsoft PowerPoint), js, css, php
 * Open external download in new tab
@@ -56,7 +58,7 @@ To let the plugin generate file size, make sure the file is in the WordPress upl
 The plugin can calculate the file size for you by enter 1 in filesize value. You don't have to enter it manually but in case, enter the file size value in the filesize attribute like below.
 
 ```
-[quick_download_button filesize="14.5MB" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+[quick_download_button file_size="14.5MB" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 ```
 
 
@@ -64,7 +66,7 @@ The plugin can calculate the file size for you by enter 1 in filesize value. You
 To hide file extension icon, set extension value to 0. Note, this will also hide extension text.
 
 ```
-[quick_download_button  title="Download" filesize="1" extension="0" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+[quick_download_button  title="Download" file_size="1" extension="0" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 ```
 
 ## Show file extention icon and text
@@ -72,7 +74,7 @@ To hide file extension icon, set extension value to 0. Note, this will also hide
 To show both file extension icon and text,  set extension value to 1 and extension_text to 1
 
 ```
-[quick_download_button  title="Download" filesize="1" extension="1" extension_text="1"  url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+[quick_download_button  title="Download" file_size="1" extension="1" extension_text="1"  url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 ```
 
 

@@ -9,7 +9,7 @@
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly
 
 
-include_once( dirname(__FILE__) . '/download.php') ;
+include_once( dirname(__FILE__) . '/download.php') ; 
 
 //If the 'quick-download-button' page URL is accessed directly, redirect to home
 

@@ -3,10 +3,12 @@ Contributors: kusimo
 Tags: media download, hide download link, download button
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Requires at least: 4.7
-Tested up to: 5.5
-Stable tag: 4.4.6
+Requires at least: 3.0.1
+Tested up to: 6.0
+Stable tag: 1.0.5
 Requires PHP: 5.6 
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl.html
 
 Quick download button with block and shortcode support.
 
@@ -26,6 +28,8 @@ Quick download button is a download button for WordPress. You can easily add a b
 * Link your download button to anywhere on the web where it's publicly available.
 * Allow free music download, video download, PDF download, spreadsheet file download and more.
 * Hide download link
+* Wait before download, you can specify how many seconds you want the user to wait before download starts ( Gutenberg Only for now)
+* Show the user a message while waiting for the download to start. 
 * Support for external download link 
 * Shows download file extension for 'pdf','mp3','mov','zip','txt','doc','xml','mp4','ppt' and images ( png, gif, jpg, jpeg, bmp)
 * Support for htm, html, ps, tex, xml, txt, csv, xlsx (Microsoft Excel), pptx (Microsoft PowerPoint), js, css, php
@@ -41,6 +45,9 @@ Quick download button is a download button for WordPress. You can easily add a b
 2. Under Media, click on the Download Button icon.
 3. Click on the button to change the title, click on the download icon next to the button to upload a file for download.
 4. Enter a suitable title in the text box, the default title is download. All done!
+
+** More Gutenberg Usage **
+To hide the file size, use the advanced option in the Gutenberg settings. Click on the Additional CSS class(es) and add 'hide-size' to the class. 
 
 ** Shortcode **
 Open the post or page you want to add a download button to, paste the shortcode example below
@@ -65,7 +72,7 @@ To use external url, add url_external attribute
 To let the plugin generate file size, make sure the file URL link is in the WordPress upload directory when using with shortcode e.g wp-content/upload and change filesize value to 1 like below
 
 `
-[quick_download_button filesize="1" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+[quick_download_button file_size="1" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 `
 
 ** Add file size manually **
@@ -73,7 +80,7 @@ To let the plugin generate file size, make sure the file URL link is in the Word
 The plugin can calculate the file size for you by entering 1 in the filesize value. You don't have to enter it manually but in case, enter the file size value in the filesize attribute like below.
 
 `
-[quick_download_button filesize="14.5MB" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
+[quick_download_button file_size="14.5MB" title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]
 `
 
 
@@ -103,7 +110,6 @@ echo do_shortcode('[quick_download_button title="Download" url="http://yoursite/
 `
 
 == Documentation ==
-You can find out more on how to use this plugin on the [Documentation](https://basichow.com/quick-download-button-wordpress-plugin/). 
 To contribute and improve this plugin please visit the [Git repo](https://github.com/kusimo/quick-download-button).
 
 == Frequently Asked Questions ==
@@ -115,3 +121,16 @@ Yes.
 = Can this plugin be used to display download file size on my site? =
 
 Yes.
+
+== Changelog ==
+
+= 1.0.5 July 23rd, 2022  =
+* Remove jQuery dependencies
+* Open external download link in a new window. 
+
+
+== Upgrade Notice ==
+
+= 1.0.5 July 23rd, 2022  =
+* Remove jQuery dependencies
+* Open external download link in a new window. 
