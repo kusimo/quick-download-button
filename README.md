@@ -84,5 +84,16 @@ To show both file extension icon and text,  set extension value to 1 and extensi
 ```
 echo do_shortcode('[quick_download_button title="Download" url="http://yoursite/wp-content/upload/fileto_download.pdf"]');
 ```
-# Documentation #
-You can find out more on how to use this plugin on the [Documentation](https://basichow.com/quick-download-button-wordpress-plugin/)
+# How to continue with development #
+Make sure npm is install on your system. Then install the project dependencies.
+* Navigate to the project directory 
+* Type npm install
+## Build the the project file 
+This will generate/update index.js inside the build folder
+* Type npm run build
+
+## Rerun the whole build process 
+Start off the start process so that the plugin is build out everytime you make a change. This will re-run the whole build process.
+* Type npm run start
+
+Use the file 'src/index.js' to make a change to the block.
