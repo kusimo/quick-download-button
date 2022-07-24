@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // If the clicked element doesn't have the right selector, bail
         if (!event.target.matches('.g-btn.f-l')) return;
 
-        // Don't follow the link
         event.preventDefault();
 
         let button = event.target;
         let attachment_id = button.getAttribute('data-attachment-id');
         let download_url = button.getAttribute('data-page-id');
         let haveExternal = button.getAttribute('data-have-external');
+        let targetBlank = button.getAttribute('data-target-blank');
         let pid = button.getAttribute('data-id');
         let waitTime = button.getAttribute('data-spinner');
         let Havemsg = button.getAttribute('data-have-external');
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let container = button.parentNode;
 
+        let manualWaitDuration = parseInt(waitTime + '00');
 
         switch (waitTime) {
             case '10':
@@ -56,38 +57,73 @@ document.addEventListener('DOMContentLoaded', function () {
                 seconds = 3000;
                 break;
             default:
-                seconds = 0;
+                seconds = manualWaitDuration;
                 break;
         }
 
 
         attachment_id = parseInt(attachment_id) - parseInt(download_url);
 
-        let download_external_url = button.getAttribute('data-external-url'); 
+        let download_external_url = button.getAttribute('data-external-url');
 
         function createLink(linkType, linkUrl) {
-            let sec = parseInt(waitTime);
-            if (seconds !== 0) {
+            let haveWaitTime = true;
+            if (isNaN(parseInt(waitTime))) {
+                haveWaitTime = false;
+            }
+            if (parseInt(waitTime) !== 0 && haveWaitTime ) {
+
                 container.append(loadingContainer)
                 let countdownMsg = document.createElement('span');
                 countdownMsg.setAttribute('class', 'countdownMsg');
                 document.querySelector('.counterContainer').append(countdownMsg);
-                countdownMsg.innerHTML = sec;
 
-                let countdown = setInterval(function () {
+                timer(parseInt(waitTime), countdownMsg);
 
-                    sec--;
-                    countdownMsg.innerHTML = sec;
-                    if (sec <= 0) {
-                        clearInterval(countdown);
+
+            } else {
+
+                extFileUrl(linkType, linkUrl)
+            }
+
+            function timer(timeInMins, output = '') {
+                let done = false;
+
+                if ('' != output) {
+                    output.innerHTML = `${timeInMins}`;
+                }
+
+                let time = timeInMins * 1;
+
+                let x = setInterval(function () {
+                    //let minutes = Math.floor(time / timeInMins);
+                    let seconds = time % (timeInMins + 1);
+                    console.log('seconds: ', seconds)
+
+                    // minutes = minutes < 10 ?  minutes : minutes;
+                    seconds = seconds < 10 ? seconds : seconds;
+
+                    if (seconds > -1) {
+                        // Output.
+                        let sec = `${seconds}`;
+                        if ('' != output) {
+
+                            output.innerHTML = `${sec}`;
+
+                        }
+                        time--;
+                    } else {
+                        clearInterval(x);
+                        done = true;
+
                         document.querySelector('.download-loading-container').remove();
                         extFileUrl(linkType, linkUrl)
                     }
 
-                }, seconds);
-            } else {
+                    return done;
 
-                extFileUrl(linkType, linkUrl)
+                }, 1000);
+
             }
         }
 
@@ -102,7 +138,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (download_external_url.indexOf('?') === -1) {
                     download_external_url += '?download';
                 }
+               
                 window.open(download_external_url, '_blank');
+
+                if(targetBlank == "false") {
+                    window.open(download_external_url, '_self');
+                } else {
+                    window.open(download_external_url, '_blank');
+                }
+               
                 //*/ 
             }
 
@@ -123,17 +167,16 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.security) {
 
                 let url = `${quick_download_object.redirecturl}?${$type}=${$url}&_wpnonce=${data.security}`;
-
-                window.open(url, '_blank');
-
+                
+                if(targetBlank == "false") {
+                    window.open(url, '_self');
+                } else {
+                    window.open(url, '_blank');
+                }
+                             
             }
-
         }
 
     }, false);
 
 })
-
-
-
-

@@ -11,6 +11,7 @@ class QDBU_QuickDownloadShortCode {
 	public $pid;
 	public $attachment_id;
 	public $url;
+	public $open_new_window;
 	public $download_pid;
 
 
@@ -34,6 +35,7 @@ class QDBU_QuickDownloadShortCode {
 				'extension'      => '',
 				'extension_text' => '0',
 				'url_external'   => '',
+				'open_new_window'		 => 'false'
 			),
 			$attr
 		);
@@ -46,7 +48,11 @@ class QDBU_QuickDownloadShortCode {
 
 		$quick_download_button_url = qdbu_default_url() . '?aid=' . $this->attachment_id; //pass attachment id to plugin download file
 
+
+
 		$this->url = ! empty( $this->a['url'] ) ? $quick_download_button_url : $this->a['url_external']; //if url value is empty set url to external url (url_external)
+
+		$this->open_new_window = 'true' === $this->a['open_new_window'] ? 'true' : 'false';
 
 		return $this->generate_button();
 	}
@@ -71,7 +77,8 @@ class QDBU_QuickDownloadShortCode {
 						<?php
 					else :
 						?>
-					 data-external-url="<?php echo esc_url( $this->a['url_external'] ); ?>" <?php endif; ?>><?php echo esc_attr( $this->a['title'] ); ?></button>
+					 data-external-url="<?php echo esc_url( $this->a['url_external'] ); ?>" <?php endif; ?>
+					 data-target-blank="<?php echo esc_attr($this->a['open_new_window']);?>"><?php echo esc_attr( $this->a['title'] ); ?></button>
 			</div>
 
 			<?php if ( '0' !== $this->a['extension'] ) : ?>

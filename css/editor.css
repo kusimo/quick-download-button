@@ -201,3 +201,8 @@ button.g-btn {
 .hide-file .custom-download-button-inner {
     margin-top: 1rem;
 }
+
+/* Timer input control */
+.components-input-control.components-number-control + .components-radio-control { display: none!important;}
+
+.components-input-control.components-number-control + .components-radio-control + div { margin-top: 1rem }

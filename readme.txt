@@ -4,8 +4,8 @@ Tags: media download, hide download link, download button
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.0.1
-Tested up to: 6.0
-Stable tag: 1.0.5
+Tested up to: 6.0.2
+Stable tag: 1.0.6
 Requires PHP: 5.6 
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -57,7 +57,16 @@ Open the post or page you want to add a download button to, paste the shortcode 
 `
 The url value needs to be replaced with your media link URL. To change the title, enter a different text in the title value. The default value is Download.
 
+
 == More Shortcode Usage ==
+
+** Open link in a new window **
+
+To open the download link in a new window (tab), set attribute 'open_new_window" to true. To open link in the same window set the attribute to 'false' See example below:
+
+`
+[quick_download_button title="Download" open_new_window="true" url_external="https://google.com"]
+`
 
 ** Link to external URL **
 

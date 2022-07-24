@@ -2,7 +2,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { SVG, Path } from '@wordpress/primitives';
 import { __ } from '@wordpress/i18n';
 import {ColorPalette, InspectorControls, RichText, MediaUpload } from '@wordpress/block-editor';
-import { Button, PanelBody, TextControl, ToggleControl, RadioControl } from '@wordpress/components';
+import { Button, PanelBody, TextControl, ToggleControl, RadioControl, __experimentalNumberControl as NumberControl } from '@wordpress/components';
 import { useEntityProp } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 
@@ -87,13 +87,13 @@ registerBlockType( 'quick-download-button/download-button', {
             type: 'string',
             source: 'attribute',
             selector: 'button',
-            attribute: 'data-msg',
+            attribute: 'data-msg'
         },
         spinnerValue: {
             type: 'string',
             source: 'attribute',
             selector: 'button',
-            attribute: 'data-spinner',
+            attribute: 'data-spinner'
         },
         useExternalLink: {
             type: Boolean,
@@ -106,13 +106,22 @@ registerBlockType( 'quick-download-button/download-button', {
             type: "string"
         },
         haveExternal: {
-            type: "boolean"
+            type: "boolean",
+            default: false
+        },
+        targetBlank: {
+            type: "boolean",
+            default: false
+        },
+        haveManualTimer: {
+            type: "boolean",
+            default: false
         },
         pID: {
             type: 'string',
             source: 'attribute',
             selector: 'button',
-            attribute: 'data-id', 
+            attribute: 'data-id'
         }
 
 
@@ -131,6 +140,8 @@ registerBlockType( 'quick-download-button/download-button', {
                 downloadFormat, 
                 downloadTitlePlaceholder, 
                 haveExternal,
+                haveManualTimer,
+                targetBlank,
                 externalUrl,
                 waitDuration,
                 waitMessage,
@@ -213,6 +224,22 @@ registerBlockType( 'quick-download-button/download-button', {
               }
           }
 
+        // Add manual time per seconds
+        const onChangeToggleTimerManual = newValue => {
+            setAttributes( { haveManualTimer: newValue });
+        }
+
+        const onTimerChange = newValue => {
+            setAttributes(
+                { spinnerValue: newValue } 
+             )
+        }
+
+        // Target blank
+        const onChangeToggleTargetBlank = newValue => {
+            setAttributes( { targetBlank: newValue });
+        }
+
           const onUrlChange = newValue => {
            setAttributes( {externalUrl: newValue } ) 
            if(isUrl(externalUrl)) {
@@ -260,6 +287,18 @@ registerBlockType( 'quick-download-button/download-button', {
           /> :
           '';
 
+          const timerInput = haveManualTimer
+          ? 
+          <NumberControl
+            isShiftStepEnabled={ true }
+            shiftStep={ 1 }
+            step={1}
+            value={ parseInt(spinnerValue) }
+            onChange={ 
+                onTimerChange
+            }
+        /> : '';
+
         return [
             <InspectorControls>
                 <PanelBody title= { __( 'Color settings', "quick-download-button") }>
@@ -279,9 +318,20 @@ registerBlockType( 'quick-download-button/download-button', {
                 <PanelBody title= { __( 'URL settings', "quick-download-button") }>
                 <div className="components-base-control">
                     <div className="component-base-control__field">
+                    
+                    <ToggleControl
+                        label= { __( 'Open link in new window?', "quick-download-button") } 
+                        help={
+                            targetBlank
+                                ?  __( 'Open the download link in a new window. This will try to open link in new tab when possible.', "quick-download-button") 
+                                : __( 'Open in same window. This will open link in same window when possible.', "quick-download-button") 
+                        }
+                        checked={ targetBlank }
+                        onChange={ onChangeToggleTargetBlank }
+                    />
 
                     <ToggleControl
-                        label= { __( 'External URL', "quick-download-button") } //"External URL"
+                        label= { __( 'Use External URL?', "quick-download-button") } //"External URL"
                         help={
                             haveExternal
                                 ?  __( 'Use external URL.', "quick-download-button") //'Use external URL.'
@@ -290,22 +340,38 @@ registerBlockType( 'quick-download-button/download-button', {
                         checked={ haveExternal }
                         onChange={ onChangeToggle }
                     />
-                      { extUrl }
+                    { extUrl }
                     </div>
                 </div>
                 </PanelBody>
                 <PanelBody title= { __( 'Countdown settings', "quick-download-button") }>
                 <div className="components-base-control">
                     <div className="component-base-control__field qdbu-label-mtop">
+
+                    <ToggleControl
+                        label= { __( 'Manual', "quick-download-button") } // Enter time
+                        help={
+                            haveManualTimer
+                                ?  __( 'Enter timer manually.', "quick-download-button") //'Use external URL.'
+                                : __( 'Select one of the default timer durations.', "quick-download-button") //'Do not use External URL.'
+                        }
+                        checked={ haveManualTimer }
+                        onChange={ onChangeToggleTimerManual }
+                    />
+                    { timerInput }
+
                     <RadioControl
                         label={ __( 'Timer', "quick-download-button") }
                         help={ __( 'The amount of time in seconds you want the user to wait before the download begins. Default is 0.', "quick-download-button") }
                         selected={ spinnerValue }
                         options={ [
-                            { label: '0', value: '0' },
-                            { label: '10', value: '10' },
-                            { label: '20', value: '20' },
-                            { label: '30', value: '30' },
+                            { label: '0', value: '0', key: '0' },
+                            { label: '10', value: '10', key: '10' },
+                            { label: '15', value: '15', key: '15' },
+                            { label: '20', value: '20', key: '20' },
+                            { label: '25', value: '25', key: '25' },
+                            { label: '30', value: '30', key: '30' },
+                            { label: '60', value: '60', key: '60' },
                         ] }
                         onChange={ onRadioChange }
                     />
@@ -321,8 +387,9 @@ registerBlockType( 'quick-download-button/download-button', {
                     data-attachment-id={downloadAttachmentId} 
                     data-page-id={downloadPageId}
                     data-post-id=""
-                    data-have-external={haveExternal}
-                    data-external-url={externalUrl}
+                    data-have-external={ haveExternal}
+                    data-external-url={`${props.attributes.haveExternal ? props.attributes.externalUrl : ''}`}
+                    data-target={ targetBlank }
                     data-wait-duration={waitDuration}
                     data-spinner={spinnerValue}
                     data-msg={waitMessage}
@@ -373,8 +440,9 @@ registerBlockType( 'quick-download-button/download-button', {
                         data-page-id={attributes.downloadPageId}
                         data-post-id=""
                         data-have-external={attributes.haveExternal}
-                        data-external-url={attributes.externalUrl}
+                        data-external-url={`${attributes.haveExternal ? attributes.externalUrl : ''}`}
                         data-wait-duration={props.attributes.waitDuration}
+                        data-target-blank={ attributes.targetBlank }
                         data-msg={attributes.waitMessage}
                         data-spinner={attributes.spinnerValue}
                         data-id={attributes.pID}
